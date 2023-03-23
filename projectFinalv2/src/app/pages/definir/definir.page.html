@@ -1,0 +1,58 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          
+      </ion-buttons>
+      <ion-title class="ion-text-capitalize">Rutas</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-float-left ion-margin ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col id="margin">
+        <h1>Bienvenidos</h1>
+        <br />
+        <p class="ion-text-center">
+          <ion-button color="dark" expand="block" [routerLink]=" '/crear-ruta' "
+            >Crea una ruta nueva</ion-button
+          >
+        </p>
+
+        <p class="ion-text-center">
+          <ion-button
+            color="dark"
+            expand="block"
+            [routerLink]=" '/rutas' "
+            >Rutas disponibles</ion-button
+          >
+        </p>
+
+        <p class="ion-text-center">
+          <ion-button
+            color="dark"
+            expand="block"
+            [routerLink]=" '/editar-ruta' "
+            >Editar ruta ya creada</ion-button
+          >
+        </p>
+        <!-- <ion-button (click)="presentAlertPrompt()" color="dark" expand="block">
+                    Crear ruta
+                </ion-button> -->
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="person-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button>
+        <ion-icon name="build" [routerLink]=" '/config-person' "></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="bicycle-outline"[routerLink]=" '/rutas-disponibles' "></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

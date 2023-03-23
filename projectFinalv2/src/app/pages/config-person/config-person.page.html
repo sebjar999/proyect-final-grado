@@ -1,0 +1,30 @@
+<app-header class="ion-text-center" titulo="Configuracion de usuario">
+</app-header>
+
+
+<ion-content class="ion-padding">
+
+  <ion-grid>
+      <ion-row>
+          <ion-col class="ion-text-center  mybuttons-signup " size="12">
+              <h1 class="ion-text-center" id="name">Mi perfil</h1>          
+          </ion-col>
+
+          <ion-col class="ion-text-center buttons-signup  " id="margin">
+              <p class="text center">
+                  <ion-button color="dark" expand="block" [routerLink]="['/editar-cuenta']">Editar datos usuario</ion-button>
+              </p>
+
+              <p class="text center">
+                  <ion-button color="danger" expand="block" type="submit" (click)="eliminar()"><ion-icon name="trash"></ion-icon> Eliminar cuenta</ion-button>
+              </p>
+
+              <p class="text center">
+                  <ion-button color="danger" expand="block" (click)="cerrarSesion()">Cerrar Sesion</ion-button>
+              </p>
+
+          </ion-col>
+      </ion-row>
+  </ion-grid>
+</ion-content>
+

@@ -1,0 +1,67 @@
+<app-header titulo="Editar ruta"></app-header>
+<ion-content class="ion-float-left ion-margin ion-padding">
+  <div id="floating-panel" class="form-check">
+    <ion-grid>
+      <ion-row class="ion-justify-content-start">
+        <ion-col size="12">
+          <ion-item>
+            <ion-label>Inicio de ruta:</ion-label>
+            <ion-input
+              [(ngModel)]="start"
+              (change)="calculateAndDisplayRoute()"
+              placeholder="Punto de partida"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label>Final de la ruta:</ion-label>
+            <ion-input
+              [(ngModel)]="end"
+              (change)="calculateAndDisplayRoute()"
+              placeholder="Punto de llegada"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <!-- FECHAS - HORA -->
+        <ion-col size="12">
+          <ion-datetime-button datetime="datetime"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime
+                id="datetime"
+                [(ngModel)]="timedate"
+              ></ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </ion-col>
+
+        <!-- DIFICULTAD -->
+
+        <ion-col size="12">
+          <ion-list>
+            <ion-item>
+              <ion-select
+                placeholder="Niveles"
+                [(ngModel)]="difi"
+              >
+                <ion-select-option value="1">Bajo</ion-select-option>
+                <ion-select-option value="2">medio</ion-select-option>
+                <ion-select-option value="3">alto</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div #map id="map1"></div>
+  <br />
+  <p class="ion-text-center">
+    <ion-button color="dark" class="card-img-top" (click)="obtenerValuesEditRutaMaps()" expand="block">
+      Crear nueva ruta
+    </ion-button>
+  </p>
+</ion-content>

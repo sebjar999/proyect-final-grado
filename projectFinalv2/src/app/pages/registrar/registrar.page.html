@@ -1,0 +1,81 @@
+<app-header class="ion-text-center" titulo="Crea tu cuenta"> </app-header>
+<ion-content class="ion-float-left ion-margin ion-padding">
+  <ion-grid>
+    <ion-row>
+      <!-- <ion-col size="12" size-lg="3" size-md="4" size-sm="6"> -->
+      <ion-col>
+        <h1>Ingresa tus datos</h1>
+        <hr />
+        <form
+          class="mid-form"
+          [formGroup]="formRegister"
+          (ngSubmit)="onSubmit()"
+        >
+          <div class="form-check">
+            <ion-item>
+              <ion-input
+                type="name"
+                placeholder="Nombre completo:"
+                maxlength="20"
+                formControlName="name"
+              ></ion-input> </ion-item
+            ><br />
+          </div>
+          <div class="form-check">
+            <ion-item>
+              <ion-input
+                type="familyName "
+                placeholder="Apellidos :"
+                maxlength="20"
+                name="last_name"
+                formControlName="lastname"
+              ></ion-input> </ion-item
+            ><br />
+          </div>
+          <div class="form-check">
+            <ion-item>
+              <ion-input
+                type="email"
+                placeholder="Correo electronico:"
+                maxlength="50"
+                name="email"
+                formControlName="email"
+                maxlength="50"
+              ></ion-input> </ion-item
+            ><br />
+          </div>
+          <div class="form-check">
+            <ion-item>
+              <ion-input
+                type="password"
+                placeholder="Nueva Contraseña:"
+                maxlength="10"
+                formControlName="password"
+              ></ion-input> </ion-item
+            ><br />
+          </div>
+          <div class="form-check">
+            <ion-item>
+              <ion-input
+                type="password"
+                placeholder="Confirmar Contraseña:"
+                maxlength="10"
+                formControlName="confirmpassword"
+              ></ion-input> </ion-item
+            ><br />
+          </div>
+          <p class="ion-text-center">
+            <ion-button
+              type="submit"
+              color="dark"
+              class="card-img-top"
+              expand="block"
+            >
+              Crea tu cuenta nueva
+            </ion-button>
+          </p>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
