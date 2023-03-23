@@ -5,3 +5,13 @@
 ion-header {
     --ion-background: #FFFF;
 }
+
+ion-menu::part(backdrop) {
+    background-color: rgba(7, 6, 7, 0.658);
+}
+
+ion-menu::part(container) {
+    border-radius: 0 20px 20px 0;
+
+    box-shadow: 4px 0px 16px rgba(14, 11, 14, 0.18);
+}
