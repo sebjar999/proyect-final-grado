@@ -18,7 +18,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/registrar/registrar.module').then(m => m.RegistrarPageModule)/* ,
     canActivate: [NoIngresadoGuard] */
   },
-  {
+  { 
     path: 'iniciar-seccion',
     loadChildren: () => import('./pages/iniciar-seccion/iniciar-seccion.module').then(m => m.IniciarSeccionPageModule)/* ,
     canActivate: [NoIngresadoGuard] */
@@ -54,7 +54,8 @@ const routes: Routes = [
   {
     path: 'editar-ruta',
     loadChildren: () => import('./pages/editar-ruta/editar-ruta.module').then( m => m.EditarRutaPageModule)
-  },  {
+  },
+  {
     path: 'rutas',
     loadChildren: () => import('./pages/rutas/rutas.module').then( m => m.RutasPageModule)
   },

@@ -7,8 +7,8 @@
   </ion-toolbar>
 </ion-header> -->
 <ion-app>
-  <ion-menu contentId="main-content">
-    <ion-header>
+  <ion-menu contentId="main-content" >
+    <ion-header [translucent]="true">
       <ion-toolbar color="tertiary">
         <ion-title>Menu</ion-title>
       </ion-toolbar>
@@ -16,8 +16,6 @@
     <ion-content class="ion-padding">
       <ion-button color="dark" expand="block" [routerLink]=" '/config-person' ">   <ion-icon name="build"></ion-icon>  Configuracion personal</ion-button>
       <ion-button color="dark" expand="block" [routerLink]=" '/rutas-disponibles' "> <ion-icon name="bicycle-outline"></ion-icon> Historial de mis rutas</ion-button>
-
- 
 
     </ion-content>
   </ion-menu>
