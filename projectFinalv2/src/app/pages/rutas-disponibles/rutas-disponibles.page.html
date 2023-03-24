@@ -14,7 +14,11 @@
                           <ion-card-title>Fin: {{listRut.end_route}}</ion-card-title>
                           <ion-card-subtitle>Nivel: {{listRut.route_level}}</ion-card-subtitle>
                           <ion-card-subtitle>Dia y hora: {{listRut.date_route}}</ion-card-subtitle>
+                          <ion-card-subtitle>id: {{listRut.id}}</ion-card-subtitle>
                         </ion-card-header> 
+                        <ion-button color="dark" *ngIf=”listRut.date_route>=f><ion-icon
+                            name="paper-plane-outline"></ion-icon></ion-button>
+                    
                       </ion-card>
                 </div>
 

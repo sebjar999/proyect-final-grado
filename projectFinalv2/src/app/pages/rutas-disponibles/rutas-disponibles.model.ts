@@ -7,4 +7,5 @@ export interface ListRuta {
     route_level: string;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     date_route: string;
+    id: string;
   };

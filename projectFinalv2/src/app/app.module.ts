@@ -22,7 +22,7 @@ import { FormsModule } from '@angular/forms';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
+    FormsModule
   ],
   providers: [
     /* StatusBar,

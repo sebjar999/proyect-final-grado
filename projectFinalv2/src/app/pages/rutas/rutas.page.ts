@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AsistirRutasDisponibles, RutasService, } from './rutas.service';
+import { RutasService } from './rutas.service';
 import { AlertController, IonModal } from '@ionic/angular';
 import { Rutas } from './rutas.model';
 import { OverlayEventDetail } from '@ionic/core/components';
@@ -60,7 +60,7 @@ export class RutasPage implements OnInit {
       destination: end,
       travelMode: travel
     }, (response, status) => {
-      if (status === 'OK') {        
+      if (status === 'OK') {
         this.directionsDisplay.setDirections(response);
       }
     });
@@ -71,37 +71,30 @@ export class RutasPage implements OnInit {
     this.initMap();
   }
 
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
-    this.modal.isOpen = false;
-  }
+  asistir(iD: number) {
+   const token=localStorage.token
+    
+   const body = {
+      token: token,
+      id: iD
+    };
 
-  confirm() {
-    this.modal.dismiss(this.name, 'confirm');
-    this.modal.isOpen = false;
-  }
+    
+    
+    this.rutasService.asistencia(body)
+      .subscribe((response) => {
+        console.log("entra");
 
-  /*  asistir(id: number){
- 
-     this.token1 = localStorage.getItem('token');
-     console.log(this.token1);
-     const id1 = this.id;
-     console.log(id1);
-     const body = {
-       token: this.token1,
-       id: id1
-     };
-     this.asistirRutasDisponibles.asistencia(body)
-       .subscribe((response) => {
-         if ((response === true)) {
-           this.asistenciaCompleta();
-         } else {
-           this.asistenciaIncompleta();
-         }
-       }, (error) => {
-         console.log(error);
-       });
-   } */
+        if ((response === true)) {
+          this.asistenciaCompleta();          
+        } else {
+          this.asistenciaIncompleta();
+        }
+
+      }, (error) => {
+        console.log(error);
+      });
+  }
 
 
   async asistenciaCompleta() {

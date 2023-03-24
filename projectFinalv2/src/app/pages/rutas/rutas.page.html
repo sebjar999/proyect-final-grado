@@ -1,11 +1,13 @@
-<app-header class="ion-text-center" titulo="Rutas"> </app-header>
+<app-header class="ion-text-center" titulo="Rutas"> 
+    
+</app-header>
 <ion-content>
 
-    <ion-content id="rutaTrazada"></ion-content>
+    <ion-content [isOpen]="false" id="rutaTrazada"></ion-content>
 
 
-    <ion-modal #modal trigger="open-modal" [isOpen]="true" [initialBreakpoint]="0.25" [breakpoints]="[0.25, 0.5, 0.75]"
-        [backdropDismiss]="false" [backdropBreakpoint]="0.5">
+    <ion-modal #modal trigger="open-modal" [isOpen]="true" [initialBreakpoint]="0.1" [breakpoints]="[0.1, 1, 0.75]"
+        [backdropDismiss]="true" [backdropBreakpoint]="0.2">
         <ng-template>
             <ion-content class="ion-padding">
                 <ion-list>
@@ -14,13 +16,12 @@
                             <ion-item (click)="trazarRutaMaps(rut.start_route, rut.end_route)">
                                 <ion-avatar slot="start">
                                     <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
-                                    <ion-icon src="./email.png"></ion-icon>
                                 </ion-avatar>
                                 <ion-label>
                                     <p>Inicio: {{rut.start_route}}</p>
                                     <p>Fin: {{rut.end_route}}</p>
                                     <p>Nivel: {{rut.route_level}}</p>
-                                    <p>Fecha: {{rut.date_route}}</p>
+                                    <p>Fecha: {{rut.date_route}}</p>                    
 
                                 </ion-label>
                                 <ion-button color="dark" id="btn1{{rut.id}}" (click)="asistir(rut.id)"><ion-icon

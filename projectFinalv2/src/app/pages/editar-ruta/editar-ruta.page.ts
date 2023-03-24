@@ -11,7 +11,7 @@ declare const google;
 })
 export class EditarRutaPage implements OnInit {
 
-  map1: any;
+  map: any;
   start = '';
   end = '';
   difi: any;
@@ -71,12 +71,12 @@ export class EditarRutaPage implements OnInit {
   onSubmit() { }
 
   initMaps() {
-    this.map1 = new google.maps.Map(document.getElementById('map1'), {
+    this.map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
       center: { lat: 4.81333, lng: -75.69611 },
     });
 
-    this.directionsDisplay.setMap(this.map1);
+    this.directionsDisplay.setMap(this.map);
   }
 
   calculateAndDisplayRoute() {

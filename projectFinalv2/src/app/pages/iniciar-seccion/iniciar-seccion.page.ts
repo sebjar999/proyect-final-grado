@@ -39,7 +39,6 @@ export class IniciarSeccionPage implements OnInit {
         //setTimeout(function() { window.location.href = '/definir'; }, 1000);
         localStorage.setItem('token', res.token);
         localStorage.setItem('ingresado', 'true');
-        localStorage.setItem('id', res.id );
         this.navCtrl.navigateRoot('definir');
       }, (err) => {
         this.fallologin();
