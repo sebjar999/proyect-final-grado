@@ -34,7 +34,7 @@ export class IniciarSeccionPage implements OnInit {
     this.iniciarSeccionService.iniciarSesion(form)
       .subscribe((res) => {
         this.bienvenidologin();
-        console.log(res);
+        
         // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
         //setTimeout(function() { window.location.href = '/definir'; }, 1000);
         localStorage.setItem('token', res.token);

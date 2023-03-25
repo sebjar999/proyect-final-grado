@@ -20,7 +20,6 @@ export class RutasDisponiblesPage implements OnInit {
     .subscribe(data => {
       // eslint-disable-next-line @typescript-eslint/dot-notation
       this.listRuta = data['routes'];
-      console.log(this.listRuta);
 
     });
     }
