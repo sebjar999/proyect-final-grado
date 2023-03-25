@@ -18,9 +18,6 @@ export class ConfigPersonService {
          // eslint-disable-next-line @typescript-eslint/naming-convention
          'Content-Type': 'application/json; charset=utf-8',
        });
-       console.log(localStorage.getItem('token'));
-       
-       return this.http.post(this.url,
-         { headers: segurityHeaders });
+       return this.http.post(this.url,{}, { headers: segurityHeaders });
      }
 }

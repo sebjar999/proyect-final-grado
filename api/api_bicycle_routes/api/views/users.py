@@ -1,13 +1,14 @@
 from cerberus import Validator
 from django.contrib.auth import authenticate
+from django.db import models, transaction
 from django.db.models import Q
 from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from api.models import User
+from api.models import Route, User
 
 
 class UserRegister(APIView):
@@ -120,14 +121,26 @@ class UserDeleteUser(APIView):
     permission_classes = (
         IsAuthenticated,
     )
+    @ transaction.atomic(savepoint=True)
     def post(self, request):
         user = request.user
-        user.is_active = False
-        user.save()
-        return Response(
-            data={
-                "msg": "Usuario dado de baja",
-            },
-            status=status.HTTP_200_OK,
-        )
+        sid = transaction.savepoint()
+        try:
+            user.route_user.all().update(status=Route.Status.DESACTIVATE)
+            user.is_active = False
+            user.save()
+            return Response(
+                data={
+                    "msg": "Deleted Successfully",
+                },
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            transaction.savepoint_rollback(sid)
+            return Response(
+                data={
+                    "msg": f"Error: {str(e)}",
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
 
