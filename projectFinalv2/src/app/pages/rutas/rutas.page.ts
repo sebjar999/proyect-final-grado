@@ -72,21 +72,24 @@ export class RutasPage implements OnInit {
   }
 
   asistir(iD: number) {
-   const token=localStorage.token
-    console.log(iD);
-    
-   const body = {
+
+    const body = {
       route_id: iD
     };
 
     this.rutasService.asistencia(body)
       .subscribe((response) => {
-        
+
 
         if ((response === true)) {
           this.asistenciaIncompleta();
         } else {
-          this.asistenciaCompleta();          
+          this.asistenciaCompleta();
+          this.rutasService.rutasAll().subscribe(data => {
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            this.rutas = data['routes'];
+            console.log(this.rutas);
+          });
         }
 
       }, (error) => {

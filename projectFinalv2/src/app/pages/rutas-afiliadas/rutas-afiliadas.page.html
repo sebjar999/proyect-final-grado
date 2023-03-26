@@ -17,7 +17,7 @@
                             <ion-card-subtitle>Nivel: {{rut.route_level}}</ion-card-subtitle>
                             <ion-card-subtitle>Dia y hora: {{rut.date_route}}</ion-card-subtitle>
                         </ion-card-header>
-                        <ion-button fill="clear" id="btn1{{rut.id}}" > Cancelar mis subscribcion</ion-button>          
+                        <ion-button fill="clear" id="btn1{{rut.id}}" (click)="cancelar(rut.id)"> Cancelar mis subscribcion</ion-button>          
                     </ion-card>
                 </div>
 

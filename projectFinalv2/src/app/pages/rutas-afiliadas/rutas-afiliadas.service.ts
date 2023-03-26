@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 
   export class RutasAfiliadasService {
     url = environment.API_URL + 'subscribe';
-    url2 = environment.API_URL + '';
+    url2 = environment.API_URL + 'subscribe';
 
     constructor(private http: HttpClient) { }
   
@@ -30,8 +30,8 @@ import { environment } from 'src/environments/environment';
         // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/json; charset=utf-8',
       });
-      return this.http.get(this.url2,
-        { headers: segurityHeaders });
+      return this.http.delete(this.url2,
+         { headers: segurityHeaders, body: body });
     }
    
   }
