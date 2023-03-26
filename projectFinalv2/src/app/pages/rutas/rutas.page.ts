@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { RutasService } from './rutas.service';
 import { AlertController, IonModal } from '@ionic/angular';
 import { Rutas } from './rutas.model';
-import { OverlayEventDetail } from '@ionic/core/components';
 
 declare const google;
 
@@ -37,6 +36,7 @@ export class RutasPage implements OnInit {
     this.rutasService.rutasAll().subscribe(data => {
       // eslint-disable-next-line @typescript-eslint/dot-notation
       this.rutas = data['routes'];
+      console.log(this.rutas);
     });
 
     this.initMap();
@@ -73,22 +73,20 @@ export class RutasPage implements OnInit {
 
   asistir(iD: number) {
    const token=localStorage.token
+    console.log(iD);
     
    const body = {
-      token: token,
       route_id: iD
     };
 
-    
-    
     this.rutasService.asistencia(body)
       .subscribe((response) => {
-        console.log("entra");
+        
 
         if ((response === true)) {
-          this.asistenciaCompleta();          
-        } else {
           this.asistenciaIncompleta();
+        } else {
+          this.asistenciaCompleta();          
         }
 
       }, (error) => {

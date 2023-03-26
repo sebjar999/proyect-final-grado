@@ -1,5 +1,5 @@
 export interface Rutas {
-    id: string;
+  
   // eslint-disable-next-line @typescript-eslint/naming-convention
     start_route: string;
     // eslint-disable-next-line @typescript-eslint/naming-convention
