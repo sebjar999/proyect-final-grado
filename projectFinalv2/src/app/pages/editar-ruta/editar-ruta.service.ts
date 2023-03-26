@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class EditarRutaService {
 
-  url = environment.API_URL + 'route';
+  url = environment.API_URL + '';
   constructor(private http: HttpClient) { }
 
   public editarInformacionRuta(body: Record<string, string | number | any>){

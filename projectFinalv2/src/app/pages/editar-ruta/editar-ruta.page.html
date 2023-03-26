@@ -6,21 +6,15 @@
         <ion-col size="12">
           <ion-item>
             <ion-label>Inicio de ruta:</ion-label>
-            <ion-input
-              [(ngModel)]="start"
-              (change)="calculateAndDisplayRoute()"
-              placeholder="Punto de partida"
-            ></ion-input>
+            <ion-input [(ngModel)]="start" (change)="calculateAndDisplayRoute()"
+              placeholder="Punto de partida"></ion-input>
           </ion-item>
         </ion-col>
         <ion-col size="12">
           <ion-item>
             <ion-label>Final de la ruta:</ion-label>
-            <ion-input
-              [(ngModel)]="end"
-              (change)="calculateAndDisplayRoute()"
-              placeholder="Punto de llegada"
-            ></ion-input>
+            <ion-input [(ngModel)]="end" (change)="calculateAndDisplayRoute()"
+              placeholder="Punto de llegada"></ion-input>
           </ion-item>
         </ion-col>
 
@@ -29,10 +23,7 @@
           <ion-datetime-button datetime="datetime"></ion-datetime-button>
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime
-                id="datetime"
-                [(ngModel)]="timedate"
-              ></ion-datetime>
+              <ion-datetime id="datetime" [(ngModel)]="timedate"></ion-datetime>
             </ng-template>
           </ion-modal>
         </ion-col>
@@ -42,10 +33,7 @@
         <ion-col size="12">
           <ion-list>
             <ion-item>
-              <ion-select
-                placeholder="Niveles"
-                [(ngModel)]="difi"
-              >
+              <ion-select placeholder="Niveles" [(ngModel)]="difi">
                 <ion-select-option value="1">Bajo</ion-select-option>
                 <ion-select-option value="2">medio</ion-select-option>
                 <ion-select-option value="3">alto</ion-select-option>

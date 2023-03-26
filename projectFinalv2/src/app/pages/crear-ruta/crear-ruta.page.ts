@@ -11,6 +11,7 @@ declare const google;
 })
 
 export class CrearRutaPage implements OnInit {
+
   map: any;
   start = '';
   end = '';
@@ -41,20 +42,21 @@ export class CrearRutaPage implements OnInit {
 
   iniciar(form): void {
     this.crearRutaService.guardarInformacionRuta(form)
-    .subscribe((response) => {
-      if ((response.status === true)) {
-        this.rutafallo();
-        // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-        setTimeout(function() { window.location.href = '/definir'; }, 1500);
-      } else {
-        this.rutaExitosa();
-        // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-        setTimeout(function() { window.location.href = '/definir'; }, 2000);
-      }
-    }, (error) => {
-      console.log(error);
-    });
+      .subscribe((response) => {
+        if ((response.status === true)) {
+          this.rutafallo();
+          // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+          setTimeout(function () { window.location.href = '/definir'; }, 1500);
+        } else {
+          this.rutaExitosa();
+          // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+          setTimeout(function () { window.location.href = '/definir'; }, 2000);
+        }
+      }, (error) => {
+        console.log(error);
+      });
   }
+
   async rutaExitosa() {
     const alert = await this.alertCtrl.create({
       cssClass: 'my-custom-class',
@@ -106,6 +108,7 @@ export class CrearRutaPage implements OnInit {
       }
     });
   }
+
   async falloCordenadas() {
     const alert = await this.alertCtrl.create({
       cssClass: 'my-custom-class',
@@ -116,12 +119,13 @@ export class CrearRutaPage implements OnInit {
     const { role } = await alert.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
   }
+
   obtenerValuesRutaMaps() {
 
     const t = this.timedate.toString();
     const day = t.split('T')[0];
-    const hour= t.split('T')[1].split('-')[0];
-    const dayHour=day+ ' ' + hour;
+    const hour = t.split('T')[1].split('-')[0];
+    const dayHour = day + ' ' + hour;
 
     const body = {
       // eslint-disable-next-line @typescript-eslint/naming-convention

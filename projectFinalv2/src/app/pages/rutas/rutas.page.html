@@ -1,9 +1,8 @@
 <app-header class="ion-text-center" titulo="Rutas"> 
-    
 </app-header>
 <ion-content>
 
-    <ion-content [isOpen]="false" id="rutaTrazada"></ion-content>
+    <ion-content [isOpen]="true" id="rutaTrazada"></ion-content>
 
 
     <ion-modal #modal trigger="open-modal" [isOpen]="true" [initialBreakpoint]="0.1" [breakpoints]="[0.1, 1, 0.75]"
@@ -22,6 +21,7 @@
                                     <p>Fin: {{rut.end_route}}</p>
                                     <p>Nivel: {{rut.route_level}}</p>
                                     <p>Fecha: {{rut.date_route}}</p>                    
+                                    <p>id: {{rut.id}}</p>                    
 
                                 </ion-label>
                                 <ion-button color="dark" id="btn1{{rut.id}}" (click)="asistir(rut.id)"><ion-icon

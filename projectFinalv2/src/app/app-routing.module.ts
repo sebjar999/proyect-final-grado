@@ -58,9 +58,14 @@ const routes: Routes = [
   {
     path: 'rutas',
     loadChildren: () => import('./pages/rutas/rutas.module').then( m => m.RutasPageModule)
-  },  {
+  },
+  {
     path: 'rutas-afiliadas',
     loadChildren: () => import('./pages/rutas-afiliadas/rutas-afiliadas.module').then( m => m.RutasAfiliadasPageModule)
+  },
+  {
+    path: 'start',
+    loadChildren: () => import('./pages/start/start.module').then( m => m.StartPageModule)
   },
 
 

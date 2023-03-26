@@ -1,0 +1,18 @@
+<ion-tabs>
+ 
+  <ion-tab-bar slot="bottom">
+    <a class="nav-link " [routerLink]="['iniciar-seccion']">Manuel técnico</a>
+    <ion-tab-button tab="home">
+      <ion-icon name="play-circle"></ion-icon>
+      Inicio
+    </ion-tab-button>
+    <ion-tab-button tab="radio" [routerLink]="['/iniciar-seccion']">
+      <ion-icon name="radio"></ion-icon>
+      Iniciar session
+    </ion-tab-button>
+    <ion-tab-button [routerLink]="['/registrar']"tab="library">
+      <ion-icon name="library"></ion-icon>
+      Registrarse
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

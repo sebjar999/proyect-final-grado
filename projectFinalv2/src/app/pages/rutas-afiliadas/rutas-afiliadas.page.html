@@ -1,5 +1,28 @@
 <app-header class="ion-text-center" titulo="Rutas afiliadas"> </app-header>
 
 <ion-content>
+<div class="row container">
+
+        <div class="col-2"></div>
+
+        <div class="col">
+
+           
+            <div class="rutas--grid" style="text-align: center;">
+                <div class="col-4 mb-6" *ngFor="let rut of rutas">
+                    <ion-card>
+                        <ion-card-header (click)="trazarRutaMaps(rut.start_route, rut.end_route)">
+                            <ion-card-title>Inicio: {{rut.start_route}}</ion-card-title>
+                            <ion-card-title>Fin: {{rut.end_route}}</ion-card-title>
+                            <ion-card-subtitle>Nivel: {{rut.route_level}}</ion-card-subtitle>
+                            <ion-card-subtitle>Dia y hora: {{rut.date_route}}</ion-card-subtitle>
+                        </ion-card-header>
+                        <ion-button fill="clear" id="btn1{{rut.id}}" > Cancelar mis subscribcion</ion-button>          
+                    </ion-card>
+                </div>
+
+            </div>
+        </div>
+    </div> 
 
 </ion-content>
