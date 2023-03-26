@@ -3,7 +3,11 @@ from api.models import User,Route
 
 class Suscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    route = models.ForeignKey(Route, on_delete=models.CASCADE)
+    route = models.ForeignKey(
+        Route, 
+        on_delete=models.CASCADE,
+        related_name="suscription_route_related"
+    )
     created_at = models.DateField(auto_now=True, auto_now_add=False)
 
     class Meta:

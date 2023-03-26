@@ -95,8 +95,13 @@ class RouteAllAPI(APIView):
     )
 
     def get(self, request):
+        user = request.user
         today = datetime.now().strftime("%Y-%m-%d")
-        filters = (Q(status=Route.Status.ACTIVE),Q(date_route__gte=today),)
+        filters = (
+            Q(status=Route.Status.ACTIVE),
+            Q(date_route__gte=today),
+            ~Q(user=user)
+        )
         routes = Route.objects.filter(*filters)
         routeserializer = RouteSerializer(routes, many = True)
         return Response(

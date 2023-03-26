@@ -1,13 +1,14 @@
-from api.models import User
-from rest_framework.views import APIView
+from datetime import datetime
+
 from cerberus import Validator
-from api.models import Suscription, User, Route
+from django.db.models import Q
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
-from django.db.models import Q
+from rest_framework.views import APIView
 
-
+from api.models import Route, Suscription, User
+from api.serializers import RouteSerializer
 
 
 class SuscriptionAPI(APIView):
@@ -15,6 +16,22 @@ class SuscriptionAPI(APIView):
     permission_classes = (
         IsAuthenticated,
     )
+    
+    def get(self, request):
+        """ Get routes that user is subscribed """
+        user = request.user
+        today = datetime.now().strftime("%Y-%m-%d")
+        print(today)
+        filters = (Q(suscription_route_related__user=user),Q(date_route__gte=today),)
+        routes = Route.objects.filter(*filters).all()
+        routeserializer = RouteSerializer(routes, many = True)
+        return Response(
+                data={
+                    "routes": routeserializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
+
 
     def post(self,request):
         validator = Validator(
