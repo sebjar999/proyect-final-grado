@@ -100,7 +100,8 @@ class RouteAllAPI(APIView):
         filters = (
             Q(status=Route.Status.ACTIVE),
             Q(date_route__gte=today),
-            ~Q(user=user)
+            ~Q(user=user),
+            ~Q(suscription_route_related__user=user)
         )
         routes = Route.objects.filter(*filters)
         routeserializer = RouteSerializer(routes, many = True)
