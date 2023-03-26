@@ -1,4 +1,4 @@
-import { Component,  ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { EditarRutaService } from './editar-ruta.service';
 
@@ -20,15 +20,15 @@ export class EditarRutaPage implements OnInit {
   directionsService = new google.maps.DirectionsService();
   directionsDisplay = new google.maps.DirectionsRenderer();
 
- // eslint-disable-next-line @typescript-eslint/member-ordering
- constructor(
-  private alertCtrl: AlertController,
-  private editarRutaService: EditarRutaService
-) {
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  constructor(
+    private alertCtrl: AlertController,
+    private editarRutaService: EditarRutaService
+  ) {
 
-}
+  }
   ngOnInit(): void {
-    this.initMaps();
+    this.initMap();
   }
 
   iniciar(form): void {
@@ -36,11 +36,11 @@ export class EditarRutaPage implements OnInit {
       if ((response.status === true)) {
         this.rutaActualizadafallo();
         // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-        setTimeout(function() { window.location.href = '/definir'; }, 1500);
+        setTimeout(function () { window.location.href = '/definir'; }, 1500);
       } else {
         this.rutaActualizadaExitosa();
         // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-        setTimeout(function() { window.location.href = '/definir'; }, 2000);
+        setTimeout(function () { window.location.href = '/definir'; }, 2000);
       }
     }, (error) => {
       console.log(error);
@@ -70,11 +70,12 @@ export class EditarRutaPage implements OnInit {
 
   onSubmit() { }
 
-  initMaps() {
+  initMap() {
     this.map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
       center: { lat: 4.81333, lng: -75.69611 },
     });
+    console.log("entra");
 
     this.directionsDisplay.setMap(this.map);
   }
@@ -99,7 +100,23 @@ export class EditarRutaPage implements OnInit {
   }
 
   obtenerValuesEditRutaMaps() {
+    const t = this.timedate.toString();
+    const day = t.split('T')[0];
+    const hour = t.split('T')[1].split('-')[0];
+    const dayHour = day + ' ' + hour;
 
+    const body = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      start_route: this.start + ',co',
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      end_route: this.end + ',co',
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      route_level: +this.difi,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      date_route: dayHour,
+
+    };
+
+    this.iniciar(body);
   }
-
 }
