@@ -3,6 +3,9 @@ import { RutasService } from './rutas.service';
 import { AlertController, IonModal } from '@ionic/angular';
 import { Rutas } from './rutas.model';
 
+
+
+import { InfiniteScrollCustomEvent } from '@ionic/angular';
 declare const google;
 
 @Component({
@@ -37,7 +40,17 @@ export class RutasPage implements OnInit {
       // eslint-disable-next-line @typescript-eslint/dot-notation
       this.rutas = data['routes'];
       console.log(this.rutas);
+      if (this.rutas.length) {
+
+      }
     });
+
+    /*     onIonInfinite(ev) {
+          
+          setTimeout(() => {
+            (ev as InfiniteScrollCustomEvent).target.complete();
+          }, 500);
+        }  */
 
     this.initMap();
   }

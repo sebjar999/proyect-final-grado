@@ -22,7 +22,6 @@ export class RutasAfiliadasPage implements OnInit {
 
       // eslint-disable-next-line @typescript-eslint/dot-notation
       this.rutas = data['routes'];
-      console.log(this.rutas);
 
     });
 
@@ -38,9 +37,17 @@ export class RutasAfiliadasPage implements OnInit {
       .subscribe((response) => {
 
         if ((response === true)) {
-          console.log(response);
+          this.cancelacionIncompleta();
         } else {
-          console.log(response);
+          this.cancelacionCompleta();
+          this.rutasAfiliadasService.rutasAfili().subscribe(data => {
+            console.log(data);
+
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            this.rutas = data['routes'];
+            console.log(this.rutas);
+
+          });
         }
 
       })
@@ -54,7 +61,7 @@ export class RutasAfiliadasPage implements OnInit {
     });
     await alert.present();
     const { role } = await alert.onDidDismiss();
-    
+
   }
   async cancelacionIncompleta() {
     const alert = await this.alertCtrl.create({
@@ -64,7 +71,7 @@ export class RutasAfiliadasPage implements OnInit {
     });
     await alert.present();
     const { role } = await alert.onDidDismiss();
-    
+
   }
 
 }

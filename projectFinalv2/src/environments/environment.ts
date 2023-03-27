@@ -6,9 +6,9 @@ export const environment = {
   production: false,
   mapboxToken: 'pk.eyJ1Ijoic2ViYXNqYXJhaGluIiwiYSI6ImNsYWl0ejAwNTAxZjczcHMzaXluNmM1Z3UifQ.vAL7gxOcLhCx6hv89Kdv4w',
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  API_URL: 'http://192.168.0.7:8000/api/',
+  API_URL: 'http://127.0.0.1:8000/api/',
+  //API_URL: 'http://192.168.0.7:8000/api/',
   //API_URL: 'http://192.168.20.59:8000/api/',
-  //API_URL: 'http://127.0.0.1:8000/api/',
 };
 
 /*
