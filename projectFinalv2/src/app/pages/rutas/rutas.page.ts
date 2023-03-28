@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { RutasService } from './rutas.service';
-import { AlertController, IonModal } from '@ionic/angular';
+import { AlertController, IonModal, ModalController } from '@ionic/angular';
 import { Rutas } from './rutas.model';
+import { Comentarios } from './rutasComents.model';
 
+//import { Modal2Component } from 'src/app/components/modal2/modal2.component';
 
+//import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
-import { InfiniteScrollCustomEvent } from '@ionic/angular';
 declare const google;
 
 @Component({
@@ -18,12 +20,16 @@ export class RutasPage implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
 
   rutas: Rutas[] = [];
+  comentarios: Comentarios[] = [];
   token1: string;
   id1: any;
   id: any;
   name: string;
   isModalOpen = false;
   map: any;
+  isAlertOpen = false;
+
+  public alertButtons = ['OK'];
 
   directionsService = new google.maps.DirectionsService();
   directionsDisplay = new google.maps.DirectionsRenderer();
@@ -32,6 +38,7 @@ export class RutasPage implements OnInit {
     private alertCtrl: AlertController,
     private rutasService: RutasService,
     private alertController: AlertController,
+    //private modalController: ModalController
     //private asistirRutasDisponibles: AsistirRutasDisponibles
   ) { }
 
@@ -40,18 +47,14 @@ export class RutasPage implements OnInit {
       // eslint-disable-next-line @typescript-eslint/dot-notation
       this.rutas = data['routes'];
       console.log(this.rutas);
-      if (this.rutas.length) {
 
-      }
     });
-
     /*     onIonInfinite(ev) {
           
           setTimeout(() => {
             (ev as InfiniteScrollCustomEvent).target.complete();
           }, 500);
         }  */
-
     this.initMap();
   }
 
@@ -83,7 +86,26 @@ export class RutasPage implements OnInit {
     this.modal.isOpen = isOpen;
     this.initMap();
   }
+  allComments(iD: number) {
 
+    const body = {
+      route_id: iD
+    };
+
+    this.rutasService.comentarios(body)
+      .subscribe((response) => {
+        if ((response === true)) {
+          console.log(response);
+
+        } else {
+          console.log(response);
+        }
+
+      }, (error) => {
+        console.log(error);
+      });
+      
+  }
   asistir(iD: number) {
 
     const body = {
@@ -132,7 +154,6 @@ export class RutasPage implements OnInit {
     console.log('onDidDismiss resolved with role', role);
   }
 
-
   async comments() {
     const alert = await this.alertController.create({
       header: 'Comentarios',
@@ -145,4 +166,14 @@ export class RutasPage implements OnInit {
 
     await alert.present();
   }
+  /* 
+    comment() {
+      this.modal2();
+    } */
+  /*   async modal2() {
+      const modal2 = await this.modalController.create({
+        component: Modal2Component
+      });
+      await modal2.present
+    } */
 }
