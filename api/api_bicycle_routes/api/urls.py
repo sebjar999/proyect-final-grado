@@ -1,7 +1,10 @@
-from api.views import Login, RouteAllAPI, RouteAPI, UserRegister,SuscriptionAPI,UserDeleteUser 
 from django.urls import path
 
+from api.views import (CommentsAPI, Login, RouteAllAPI, RouteAPI, SuscriptionAPI,
+                       UserDeleteUser, UserRegister)
+
 urlpatterns = [
+    path('comments',CommentsAPI.as_view()),
     path('register',UserRegister.as_view()),
     path('login',Login.as_view()),
     path('route',RouteAPI.as_view()),
