@@ -123,6 +123,7 @@ export class RutasPage implements OnInit {
           this.rutasService.rutasAll().subscribe(data => {
             // eslint-disable-next-line @typescript-eslint/dot-notation
             this.rutas = data['routes'];
+            setTimeout(function() { window.location.href = '/rutas-afiliadas'; }, 1500);
             console.log(this.rutas);
           });
         }

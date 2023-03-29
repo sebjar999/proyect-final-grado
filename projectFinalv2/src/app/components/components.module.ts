@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { Modal2Component } from './modal2/modal2.component';
+
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
@@ -13,12 +13,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
   declarations: [
     HeaderComponent,
     FooterComponent,
-    Modal2Component
+    
   ],
   exports: [
     HeaderComponent,
     FooterComponent,
-    Modal2Component
+    
   ],
   imports: [
     CommonModule,

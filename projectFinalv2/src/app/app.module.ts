@@ -15,6 +15,7 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { FormsModule } from '@angular/forms';
 import { ComponentsModule } from './components/components.module';
 
+
 @NgModule({
   declarations: [AppComponent ],
   entryComponents: [],
