@@ -2,6 +2,10 @@
   --ion-color-primary-contrast: #ffffff;
 }
 
+#content-ion-body{
+  size: 100% 100%;
+}
+
 ion-content {
   --background: url("/assets/img/fondo.jpg") no-repeat 100% 100%;
 }
@@ -131,7 +135,7 @@ ion-img {
 }
 
 .ion-margin-top {
-  margin-top: 85%;
+  margin-top: 80%;
 }
 
 .ion-margin-tyc{
