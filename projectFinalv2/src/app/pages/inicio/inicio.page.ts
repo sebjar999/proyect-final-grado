@@ -9,7 +9,12 @@ export class InicioPage implements OnInit {
 
   constructor() { }
 
+
+
   ngOnInit() {
+    setTimeout(() => {
+      document.getElementById('preloader').hidden=true;      
+    }, 3000);
   }
 
 }
