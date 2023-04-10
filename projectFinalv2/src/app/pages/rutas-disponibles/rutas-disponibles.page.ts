@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RutasDisponiblesService } from './rutas-disponibles.service';
 import { ListRuta } from './rutas-disponibles.model';
 import { AlertController } from '@ionic/angular';
+import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-rutas-disponibles',
@@ -12,16 +13,22 @@ export class RutasDisponiblesPage implements OnInit {
   listRuta: ListRuta[] = [];
   constructor(
     private rutasDisponiblesService: RutasDisponiblesService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private navParams: NavParams,
   ) { }
 
   ngOnInit() {
     this.rutasDisponiblesService.mostrarRuta()
-    .subscribe(data => {
-      // eslint-disable-next-line @typescript-eslint/dot-notation
-      this.listRuta = data['routes'];
-
-    });
-    }
-
+      .subscribe(data => {
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+        this.listRuta = data['routes'];
+      });
   }
+
+editarInfo3
+  this.navCtrl.navigateForward('/editar-ruta', {
+    param1: 'listRuta.id'
+
+  });
+}
+

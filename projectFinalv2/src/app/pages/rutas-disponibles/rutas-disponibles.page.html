@@ -16,7 +16,8 @@
                             <ion-card-subtitle>Dia y hora: {{listRut.date_route}}</ion-card-subtitle>
                             <ion-card-subtitle>id: {{listRut.id}}</ion-card-subtitle>
                         </ion-card-header>
-                        <ion-button color="dark" [routerLink]=" '/editar-ruta' ">
+                        <ion-button color="dark" [routerLink]=" '/editar-ruta/:listRut.id'">
+     
                             <ion-icon name="create-outline"></ion-icon>
                             Editar ruta
                         </ion-button>
