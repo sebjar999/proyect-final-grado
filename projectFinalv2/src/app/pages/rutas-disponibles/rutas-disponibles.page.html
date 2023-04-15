@@ -16,14 +16,15 @@
                             <ion-card-subtitle>Dia y hora: {{listRut.date_route}}</ion-card-subtitle>
                             <ion-card-subtitle>id: {{listRut.id}}</ion-card-subtitle>
                         </ion-card-header>
-                        <ion-button color="dark" [routerLink]=" '/editar-ruta/:listRut.id'">
-     
+                        <ion-button color="dark" (click)="enviarEditar(listRut.id)">
+
                             <ion-icon name="create-outline"></ion-icon>
                             Editar ruta
                         </ion-button>
                         <!-- <ion-button color="dark" *ngIf=”listRut.date_route>=fechaactual><ion-icon
                             name="paper-plane-outline"></ion-icon></ion-button> -->
                     </ion-card>
+                    <br>
 
                 </div>
 

@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { RutasDisponiblesService } from './rutas-disponibles.service';
 import { ListRuta } from './rutas-disponibles.model';
-import { AlertController } from '@ionic/angular';
-import { NavParams } from '@ionic/angular';
+
+/* AlertController 
+import { NavParams } from '@ionic/angular'; */
 
 @Component({
   selector: 'app-rutas-disponibles',
   templateUrl: './rutas-disponibles.page.html',
   styleUrls: ['./rutas-disponibles.page.scss'],
+  
 })
 export class RutasDisponiblesPage implements OnInit {
   listRuta: ListRuta[] = [];
   constructor(
     private rutasDisponiblesService: RutasDisponiblesService,
-    private alertController: AlertController,
-    private navParams: NavParams,
   ) { }
 
   ngOnInit() {
@@ -25,10 +25,10 @@ export class RutasDisponiblesPage implements OnInit {
       });
   }
 
-editarInfo3
-  this.navCtrl.navigateForward('/editar-ruta', {
-    param1: 'listRuta.id'
-
-  });
+  enviarEditar( param1: string) {
+    console.log(param1)
+    localStorage.setItem('idEdit', param1);
+    setTimeout(function() { window.location.href = '/editar-ruta'; }, 1500);
+  }
 }
 

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { ListRuta } from './rutas-disponibles.model';
 
 @Injectable({
     providedIn: 'root'

@@ -52,7 +52,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/editar-cuenta/editar-cuenta.module').then( m => m.EditarCuentaPageModule)
   },
   {
-    path: 'editar-ruta/:id',
+    path: 'editar-ruta',
     loadChildren: () => import('./pages/editar-ruta/editar-ruta.module').then( m => m.EditarRutaPageModule)
   },
   {
