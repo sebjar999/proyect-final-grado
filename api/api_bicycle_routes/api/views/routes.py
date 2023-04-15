@@ -10,13 +10,15 @@ from datetime import datetime
 from api.models import Route
 from django.db.models import Q
 from api.serializers import RouteSerializer
-
+import pytz
+from django.utils import timezone
 
 class RouteAPI(APIView):
 
     permission_classes = (
         IsAuthenticated,
     )
+    
     def get(self,request):
         """ Get my routes """
         user = request.user
@@ -86,6 +88,58 @@ class RouteAPI(APIView):
                 status=status.HTTP_200_OK,
             )
 
+    def patch(self, request):
+        
+        validator = Validator(
+            schema={
+                "id":{
+                    "required": True,
+                    "type": "integer"
+                },
+                "date_route":{
+                    "required": True,
+                    "type":"datetime",
+                    "coerce":lambda s: datetime.strptime(s, '%Y-%m-%d %H:%M:%S')
+                },
+            }
+        )
+        
+        if not validator.validate(request.data):
+            return Response(
+                {
+                    "details": validator.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        filters = (Q(id=validator.document.get("id")),)
+        route = Route.objects.filter(*filters).first()
+        if not route:
+            return Response(
+                {
+                    "msg": f"Route not found with this id",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        time_send = validator.document.get("date_route")
+        time_now = datetime.now()
+        if(time_send < time_now):
+            return Response(
+                {
+                    "msg": "Date should greater than today",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        route.date_route = time_send
+        route.save()
+        return Response(
+                {
+                    "msg": "succesfully",
+                },
+                status=status.HTTP_200_OK,
+            )
+        
+        
 
 class RouteAllAPI(APIView):
     """ Get all routes with status  ACTIVE """
