@@ -13,6 +13,8 @@ export class EditarRutaService {
   constructor(private http: HttpClient) { }
 
   public editarInformacionRuta(body: Record<string, string | number | any>) {
+    console.log(body);
+    
     const segurityHeaders = new HttpHeaders({
       // eslint-disable-next-line @typescript-eslint/naming-convention, quote-props
       'Authorization': `token ${localStorage.getItem('token')}`,
