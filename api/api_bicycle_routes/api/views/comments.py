@@ -16,7 +16,7 @@ class CommentsAPI(APIView):
             schema={
                 "id_route":{
                     "required": True,
-                    "type":"string"
+                    "type":"string",
                 },
             }
         )
