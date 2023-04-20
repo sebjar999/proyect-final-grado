@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from datetime import datetime
 from api.models import Route
 from django.db.models import Q
-from api.serializers import RouteSerializer
+from api.serializers import RouteSerializer,RouteSerializer
 import pytz
 from django.utils import timezone
 
@@ -155,7 +155,6 @@ class RouteAllAPI(APIView):
             Q(status=Route.Status.ACTIVE),
             Q(date_route__gte=today),
             ~Q(user=user),
-            ~Q(suscription_route_related__user=user)
         )
         routes = Route.objects.filter(*filters)
         routeserializer = RouteSerializer(routes, many = True)
@@ -166,3 +165,35 @@ class RouteAllAPI(APIView):
                 status=status.HTTP_200_OK,
             )
 
+
+class GetRouteUpdate(APIView):
+    permission_classes = (
+        IsAuthenticated,
+    )
+    
+    def get(self, request):
+        validator = Validator(
+            schema={
+                "id":{
+                    "required": True,
+                    "type":"string",
+                },
+            }
+        )
+        if not validator.validate(request.query_params):
+            return Response(
+                {
+                    "details": validator.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        filter = (Q(id=validator.document.get("id")),)
+        route = Route.objects.filter(*filter).first()
+        route_serializer = RouteSerializer(route)
+        return Response(
+            {
+                "routes": route_serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
