@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 export class RutasService {
   url = environment.API_URL + 'route_all';
   url_ = environment.API_URL + 'subscribe';
-  url_2 = environment.API_URL + '';
+  
   constructor(private http: HttpClient) { }
 
   public rutasAll() {
@@ -33,15 +33,5 @@ export class RutasService {
       { headers: segurityHeaders });
   }
   
-  public comentarios(body: Record<string, string | number | any>) {
-  const segurityHeaders = new HttpHeaders({
-      // eslint-disable-next-line @typescript-eslint/naming-convention, quote-props
-      'Authorization': `token ${localStorage.getItem('token')}`,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      'Content-Type': 'application/json; charset=utf-8',
-    });
-    return this.http.post(this.url_, body,
-      { headers: segurityHeaders });
-  }
   
 }

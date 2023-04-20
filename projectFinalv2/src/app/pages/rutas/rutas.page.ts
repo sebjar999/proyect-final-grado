@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { RutasService } from './rutas.service';
 import { AlertController, IonModal, ModalController } from '@ionic/angular';
 import { Rutas } from './rutas.model';
-import { Comentarios } from './rutasComents.model';
 
 //import { Modal2Component } from 'src/app/components/modal2/modal2.component';
 
@@ -20,7 +19,7 @@ export class RutasPage implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
 
   rutas: Rutas[] = [];
-  comentarios: Comentarios[] = [];
+  
   token1: string;
   id1: any;
   id: any;
@@ -87,7 +86,7 @@ export class RutasPage implements OnInit {
     this.initMap();
   }
   allComments(iD: number) {
-
+/* 
     const body = {
       route_id: iD
     };
@@ -104,8 +103,9 @@ export class RutasPage implements OnInit {
       }, (error) => {
         console.log(error);
       });
-      
+ */      
   }
+  
   asistir(iD: number) {
 
     const body = {
@@ -114,7 +114,6 @@ export class RutasPage implements OnInit {
 
     this.rutasService.asistencia(body)
       .subscribe((response) => {
-
 
         if ((response === true)) {
           this.asistenciaIncompleta();
@@ -132,7 +131,6 @@ export class RutasPage implements OnInit {
         console.log(error);
       });
   }
-
 
   async asistenciaCompleta() {
     const alert = await this.alertCtrl.create({
@@ -154,27 +152,4 @@ export class RutasPage implements OnInit {
     const { role } = await alert.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
   }
-
-  async comments() {
-    const alert = await this.alertController.create({
-      header: 'Comentarios',
-      inputs: [
-        {
-          placeholder: 'Agrega un comentario...',
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-  /* 
-    comment() {
-      this.modal2();
-    } */
-  /*   async modal2() {
-      const modal2 = await this.modalController.create({
-        component: Modal2Component
-      });
-      await modal2.present
-    } */
 }

@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
   export class RutasAfiliadasService {
     url = environment.API_URL + 'subscribe';
     url2 = environment.API_URL + 'subscribe';
+    url3 = environment.API_URL + 'comments';
 
     constructor(private http: HttpClient) { }
   
@@ -33,5 +34,15 @@ import { environment } from 'src/environments/environment';
       return this.http.delete(this.url2,
          { headers: segurityHeaders, body: body });
     }
+    public comentarios(body: Record<string, string | number | any>) {
+      const segurityHeaders = new HttpHeaders({
+          // eslint-disable-next-line @typescript-eslint/naming-convention, quote-props
+          'Authorization': `token ${localStorage.getItem('token')}`,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          'Content-Type': 'application/json; charset=utf-8',
+        });
+        return this.http.post(this.url3, body,
+          { headers: segurityHeaders });
+      }
    
   }

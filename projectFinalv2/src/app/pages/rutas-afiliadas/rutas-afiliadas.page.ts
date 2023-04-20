@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Rutas } from './rutas-afiliadas.model';
+import { Comentarios } from './rutas-afiliadas_comments.model';
 import { RutasAfiliadasService } from './rutas-afiliadas.service';
 @Component({
   selector: 'app-rutas-afiliadas',
@@ -10,6 +11,7 @@ import { RutasAfiliadasService } from './rutas-afiliadas.service';
 export class RutasAfiliadasPage implements OnInit {
 
   rutas: Rutas[] = [];
+  comentarios: Comentarios[] = [];
 
   constructor(
     private rutasAfiliadasService: RutasAfiliadasService,
@@ -19,25 +21,70 @@ export class RutasAfiliadasPage implements OnInit {
   ngOnInit() {
     this.rutasAfiliadasService.rutasAfili().subscribe(data => {
       console.log(data);
-
       // eslint-disable-next-line @typescript-eslint/dot-notation
       this.rutas = data['routes'];
+      let mensaje = '';
+
+      for (const key in this.rutas) {
+        if (this.rutas.hasOwnProperty(key)) {
+          mensaje += `${key}: ${this.rutas[key]}<br>`;
+        }
+      }
 
     });
-
   }
 
-  async presentAlert() {
+  async comments(iD: string) {
+
+    const body = {
+      route_id: iD
+    };
+
+    this.rutasAfiliadasService.comentarios(body)
+      .subscribe((response) => {
+        this.comentarios = response['comments'];
+        console.log(response);
+
+      }, (error) => {
+        console.log(error);
+      });
+
+    let mensaje = '';
+
+    for (const key in this.rutas) {
+      if (this.rutas.hasOwnProperty(key)) {
+        mensaje += `${key}: ${this.rutas[key]}<br>`;
+      }
+    }
     const alert = await this.alertCtrl.create({
-      header: 'Chat',
+
+      header: 'Agregar comentario',
+      message: mensaje,
+
       inputs: [
         {
-          name: 'inputName',
-          type: 'text',
-          placeholder: 'Enter input here...'
+          name: 'comment',
+          type: 'textarea',
+          placeholder: 'Escribe un comentario...'
         }
       ],
-      buttons: [],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancelar clicked');
+          }
+        },
+        {
+          text: 'Publicar',
+          handler: (data) => {
+            console.log('Comentario publicado:', data.comment);
+          }
+        }
+      ]
+
+
     });
 
     await alert.present();
