@@ -19,4 +19,12 @@ export class RutasDisponiblesService {
        return this.http.get(this.url,
          { headers: segurityHeaders });
      }
+    public cancelarRuta(){
+        const segurityHeaders = new HttpHeaders({
+            // eslint-disable-next-line @typescript-eslint/naming-convention, quote-props
+            'Authorization': `token ${localStorage.getItem('token')}`,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            'Content-Type': 'application/json; charset=utf-8',
+          });
+    }
 }

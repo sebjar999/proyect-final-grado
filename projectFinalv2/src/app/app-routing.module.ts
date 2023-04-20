@@ -66,7 +66,11 @@ const routes: Routes = [
   {
     path: 'start',
     loadChildren: () => import('./pages/start/start.module').then( m => m.StartPageModule)
+  },  {
+    path: 'informacion-route-supscription',
+    loadChildren: () => import('./pages/informacion-route-supscription/informacion-route-supscription.module').then( m => m.InformacionRouteSupscriptionPageModule)
   },
+
  
 
 

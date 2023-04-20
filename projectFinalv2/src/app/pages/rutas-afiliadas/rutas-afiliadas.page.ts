@@ -27,7 +27,7 @@ export class RutasAfiliadasPage implements OnInit {
 
   }
 
-  cancelar(iD: number) {
+  cancelar(iD: string) {
 
     const body = {
       route_id: iD

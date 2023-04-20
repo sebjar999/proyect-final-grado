@@ -6,72 +6,34 @@
       <ion-col>
         <h1>Ingresa tus datos</h1>
         <hr />
-        <form
-          class="mid-form"
-          [formGroup]="formActualizar"
-          (ngSubmit)="onSubmit()"
-        >
+        <form class="mid-form" [formGroup]="formActualizar" (ngSubmit)="onSubmit()">
           <div class="form-check">
             <ion-item>
-              <ion-input
-                type="name"
-                placeholder="Nombre completo:"
-                maxlength="20"
-                formControlName="name"
-              ></ion-input> </ion-item
-            ><br />
+              <ion-input type="name"maxlength="20" formControlName="name">{{full_name_holder}}</ion-input>
+            </ion-item><br />
           </div>
           <div class="form-check">
             <ion-item>
-              <ion-input
-                type="familyName "
-                placeholder="Apellidos :"
-                maxlength="20"
-                name="last_name"
-                formControlName="lastname"
-              ></ion-input> </ion-item
-            ><br />
+              <ion-input type="familyName "  maxlength="20" name="last_name"
+                formControlName="lastname">{{last_name_holder}}</ion-input> </ion-item><br />
           </div>
           <div class="form-check">
             <ion-item>
-              <ion-input
-                type="email"
-                placeholder="Correo electronico:"
-                maxlength="50"
-                name="email"
-                formControlName="email"
-                maxlength="50"
-                disabled
-              ></ion-input> </ion-item
-            ><br />
+              <ion-input type="email"  maxlength="50" name="email"
+                formControlName="email" maxlength="50" disabled>{{email_holder}}</ion-input> </ion-item><br />
           </div>
           <div class="form-check">
             <ion-item>
-              <ion-input
-                type="password"
-                placeholder="Nueva Contraseña:"
-                maxlength="10"
-                formControlName="password"
-              ></ion-input> </ion-item
-            ><br />
+              <ion-input type="password"  maxlength="10"
+                formControlName="password">{{password_holder}}</ion-input> </ion-item><br />
           </div>
           <div class="form-check">
             <ion-item>
-              <ion-input
-                type="password"
-                placeholder="Confirmar Contraseña:"
-                maxlength="10"
-                formControlName="confirmpassword"
-              ></ion-input> </ion-item
-            ><br />
+              <ion-input type="password" placeholder="Confirmar Contraseña:" maxlength="10"
+                formControlName="confirmpassword"></ion-input> </ion-item><br />
           </div>
           <p class="ion-text-center">
-            <ion-button
-              type="submit"
-              color="dark"
-              class="card-img-top"
-              expand="block"
-            >
+            <ion-button type="submit" color="dark" class="card-img-top" expand="block">
               Editar cuenta
             </ion-button>
           </p>

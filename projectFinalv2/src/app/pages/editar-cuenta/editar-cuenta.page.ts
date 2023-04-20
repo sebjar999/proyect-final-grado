@@ -3,7 +3,7 @@ import { AlertController } from '@ionic/angular';
 
 import {  FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditarUService } from './editar-cuenta.service';
-
+import { DatosUser } from './editar-cuenta.model';
 
 
 @Component({
@@ -13,8 +13,12 @@ import { EditarUService } from './editar-cuenta.service';
 })
 export class EditarCuentaPage implements OnInit {
   formActualizar: FormGroup;
-
+  datosUser: DatosUser[] = [];
   get actualizarF() { return this.formActualizar.controls; }
+  full_name_holder: string;
+  last_name_holder: string;
+  email_holder: string;
+  password_holder: string;
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   constructor(
@@ -32,6 +36,19 @@ export class EditarCuentaPage implements OnInit {
    }
 
   ngOnInit() {
+    const to = JSON.parse(localStorage.getItem(''));
+    
+    this.editarUService.getDataUser()
+      .subscribe(data => {
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+       this.datosUser = data['users'];
+       
+       this.full_name_holder = this.datosUser['full_name'];
+       this.last_name_holder =  this.datosUser['last_name'];
+       this.email_holder =  this.datosUser['email'];
+       this.password_holder =  this.datosUser['password'];
+      });
+      
   }
 
   editar(form): void {

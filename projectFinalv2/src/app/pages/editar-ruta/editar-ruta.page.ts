@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { EditarRutaService } from './editar-ruta.service';
 import { DatosRutas } from './edit-ruta-datos-model';
-
+import { HttpParams } from '@angular/common/http';
 
 declare const google;
 
@@ -35,11 +35,13 @@ export class EditarRutaPage implements OnInit {
 
     const id = JSON.parse(localStorage.getItem('idEdit'));
     console.log(id);
-    
-    this.editarRutaService.mostrarDatos(id)
+    const params:HttpParams = new HttpParams().set('id',id);
+    this.editarRutaService.getDataRoute(params)
       .subscribe(data => {
         // eslint-disable-next-line @typescript-eslint/dot-notation
         this.datosRutas = data['routes'];
+        console.log(data);
+        
       });
   }
 
@@ -63,7 +65,7 @@ export class EditarRutaPage implements OnInit {
     const alert = await this.alertCtrl.create({
       cssClass: 'my-custom-class',
       header: 'Ruta actualizada exitosamente',
-      //subHeader: 'recuerda el compromiso que acabas de hacer'
+      subHeader: 'Los otros usuarios ya pueden visualizarla, recuerda estar pendiente de tu ruta'
     });
     await alert.present();
     const { role } = await alert.onDidDismiss();
