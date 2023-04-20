@@ -9,7 +9,7 @@
         <form class="mid-form" [formGroup]="formActualizar" (ngSubmit)="onSubmit()">
           <div class="form-check">
             <ion-item>
-              <ion-input type="name"maxlength="20" formControlName="name">{{full_name_holder}}</ion-input>
+              <ion-input type="name"maxlength="20"placeholder="{{full_name_holder}}" formControlName="name"></ion-input>
             </ion-item><br />
           </div>
           <div class="form-check">
@@ -20,18 +20,18 @@
           <div class="form-check">
             <ion-item>
               <ion-input type="email"  maxlength="50" name="email"
-                formControlName="email" maxlength="50" disabled>{{email_holder}}</ion-input> </ion-item><br />
+                formControlName="email" maxlength="50" placeholder="{{email_holder}}" [disabled]="isInputDisabled"></ion-input> </ion-item><br />
           </div>
           <div class="form-check">
             <ion-item>
               <ion-input type="password"  maxlength="10"
-                formControlName="password">{{password_holder}}</ion-input> </ion-item><br />
+                formControlName="password"></ion-input> </ion-item><br />
           </div>
-          <div class="form-check">
+          <!-- <div class="form-check">
             <ion-item>
               <ion-input type="password" placeholder="Confirmar Contraseña:" maxlength="10"
                 formControlName="confirmpassword"></ion-input> </ion-item><br />
-          </div>
+          </div> -->
           <p class="ion-text-center">
             <ion-button type="submit" color="dark" class="card-img-top" expand="block">
               Editar cuenta

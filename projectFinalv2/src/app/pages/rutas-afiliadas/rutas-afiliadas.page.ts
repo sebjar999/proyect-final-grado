@@ -27,6 +27,22 @@ export class RutasAfiliadasPage implements OnInit {
 
   }
 
+  async presentAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Chat',
+      inputs: [
+        {
+          name: 'inputName',
+          type: 'text',
+          placeholder: 'Enter input here...'
+        }
+      ],
+      buttons: [],
+    });
+
+    await alert.present();
+  }
+
   cancelar(iD: string) {
 
     const body = {

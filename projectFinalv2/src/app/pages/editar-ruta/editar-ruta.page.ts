@@ -19,8 +19,10 @@ export class EditarRutaPage implements OnInit {
   end = '';
   difi: any;
   timedate: Date;
-  
-  
+  start_holder: string;
+  end_holder: string;
+  isInputDisabled = true;
+
   directionsService = new google.maps.DirectionsService();
   directionsDisplay = new google.maps.DirectionsRenderer();
 
@@ -35,13 +37,16 @@ export class EditarRutaPage implements OnInit {
 
     const id = JSON.parse(localStorage.getItem('idEdit'));
     console.log(id);
-    const params:HttpParams = new HttpParams().set('id',id);
+    const params: HttpParams = new HttpParams().set('id', id);
     this.editarRutaService.getDataRoute(params)
       .subscribe(data => {
         // eslint-disable-next-line @typescript-eslint/dot-notation
         this.datosRutas = data['routes'];
         console.log(data);
-        
+        this.start_holder = this.datosRutas['start_route'];
+        this.end_holder = this.datosRutas['end_route'];
+        this.calculateAndDisplayRoute(this.start_holder,this.end_holder);
+
       });
   }
 
@@ -90,15 +95,14 @@ export class EditarRutaPage implements OnInit {
       zoom: 12,
       center: { lat: 4.81333, lng: -75.69611 },
     });
-    console.log("entra");
 
     this.directionsDisplay.setMap(this.map);
   }
 
-  calculateAndDisplayRoute() {
+  calculateAndDisplayRoute(st,en) {
 
-    const inicioruta = this.start + ',co';
-    const finruta = this.end + ',co';
+    const inicioruta = st + ',co';
+    const finruta =  en+ ',co';
     const travel = 'DRIVING';
 
     this.directionsService.route({
@@ -121,14 +125,14 @@ export class EditarRutaPage implements OnInit {
     const dayHour = day + ' ' + hour;
     const Id = JSON.parse(localStorage.getItem('idEdit'));
     const body = {
-     
-     id:Id,
+
+      id: Id,
       // eslint-disable-next-line @typescript-eslint/naming-convention
       date_route: dayHour,
 
     };
 
     this.iniciar(body);
-    
+
   }
 }

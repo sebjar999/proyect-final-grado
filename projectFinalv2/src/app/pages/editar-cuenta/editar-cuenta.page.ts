@@ -19,6 +19,7 @@ export class EditarCuentaPage implements OnInit {
   last_name_holder: string;
   email_holder: string;
   password_holder: string;
+  isInputDisabled = true;
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   constructor(
@@ -42,6 +43,7 @@ export class EditarCuentaPage implements OnInit {
       .subscribe(data => {
         // eslint-disable-next-line @typescript-eslint/dot-notation
        this.datosUser = data['users'];
+       console.log(this.datosUser);
        
        this.full_name_holder = this.datosUser['full_name'];
        this.last_name_holder =  this.datosUser['last_name'];

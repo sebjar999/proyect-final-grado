@@ -56,7 +56,7 @@ export class RutasDisponiblesPage implements OnInit {
   enviarEditar(param1: string) {
     console.log(param1)
     localStorage.setItem('idEdit', param1);
-    setTimeout(function () { window.location.href = '/editar-ruta'; }, 1500);
+    setTimeout(function () { window.location.href = '/editar-ruta'; }, 1000);
   }
 }
 

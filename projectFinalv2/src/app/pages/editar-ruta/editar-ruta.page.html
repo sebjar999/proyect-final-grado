@@ -6,20 +6,22 @@
         <ion-col size="12">
           <ion-item>
             <ion-label>Inicio de ruta:</ion-label>
-            <ion-input [(ngModel)]="start" (change)="calculateAndDisplayRoute()"
-              placeholder="Punto de partida"></ion-input>
+            <ion-input [(ngModel)]="start" [disabled]="isInputDisabled"
+              >{{start_holder}}</ion-input>
           </ion-item>
         </ion-col>
         <ion-col size="12">
           <ion-item>
             <ion-label>Final de la ruta:</ion-label>
-            <ion-input [(ngModel)]="end" (change)="calculateAndDisplayRoute()"
-              placeholder="Punto de llegada"></ion-input>
+            <ion-input [(ngModel)]="end" [disabled]="isInputDisabled"
+              >{{end_holder}}</ion-input>
           </ion-item>
+          <br>  
         </ion-col>
-
+      
         <!-- FECHAS - HORA -->
         <ion-col size="12">
+          <ion-label>Solo puedes editar la fecha y hora de las rutas</ion-label>
           <ion-datetime-button datetime="datetime"></ion-datetime-button>
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
@@ -27,10 +29,9 @@
             </ng-template>
           </ion-modal>
         </ion-col>
-
+  
         <!-- DIFICULTAD -->
-
-        <ion-col size="12">
+        <!-- <ion-col size="12">
           <ion-list>
             <ion-item>
               <ion-select placeholder="Niveles" [(ngModel)]="difi">
@@ -40,13 +41,13 @@
               </ion-select>
             </ion-item>
           </ion-list>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
     </ion-grid>
   </div>
 
   <div #map id="map"></div>
-  <br />
+  
   <p class="ion-text-center">
     <ion-button color="dark" class="card-img-top" (click)="obtenerValuesEditRutaMaps()" expand="block">
       editar ruta
