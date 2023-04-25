@@ -44,5 +44,4 @@ import { environment } from 'src/environments/environment';
         return this.http.post(this.url3, body,
           { headers: segurityHeaders });
       }
-   
   }

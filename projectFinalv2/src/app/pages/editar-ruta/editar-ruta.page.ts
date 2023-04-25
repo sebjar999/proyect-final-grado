@@ -48,6 +48,7 @@ export class EditarRutaPage implements OnInit {
         this.calculateAndDisplayRoute(this.start_holder,this.end_holder);
 
       });
+      
   }
 
   iniciar(form): void {

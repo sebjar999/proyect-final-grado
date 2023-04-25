@@ -4,6 +4,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { CajaComentariosComponent } from './caja-comentarios/caja-comentarios.component';
+
 
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -13,12 +15,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
   declarations: [
     HeaderComponent,
     FooterComponent,
-    
+    CajaComentariosComponent    
   ],
   exports: [
     HeaderComponent,
     FooterComponent,
-    
+    CajaComentariosComponent
   ],
   imports: [
     CommonModule,

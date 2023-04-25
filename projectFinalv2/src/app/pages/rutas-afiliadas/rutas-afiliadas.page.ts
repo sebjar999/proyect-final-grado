@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, IonModal } from '@ionic/angular';
 import { Rutas } from './rutas-afiliadas.model';
 import { Comentarios } from './rutas-afiliadas_comments.model';
 import { RutasAfiliadasService } from './rutas-afiliadas.service';
+import { OverlayEventDetail } from '@ionic/core/components'; 
+
 @Component({
   selector: 'app-rutas-afiliadas',
   templateUrl: './rutas-afiliadas.page.html',
@@ -10,8 +12,22 @@ import { RutasAfiliadasService } from './rutas-afiliadas.service';
 })
 export class RutasAfiliadasPage implements OnInit {
 
+  @ViewChild(IonModal) modal: IonModal;
+  comentPublicar: string;
+  message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   rutas: Rutas[] = [];
   comentarios: Comentarios[] = [];
+
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if (ev.detail.role === 'confirm') {
+      this.message = `Hello, ${ev.detail.data}!`;
+    }
+  }
 
   constructor(
     private rutasAfiliadasService: RutasAfiliadasService,
@@ -23,73 +39,26 @@ export class RutasAfiliadasPage implements OnInit {
       console.log(data);
       // eslint-disable-next-line @typescript-eslint/dot-notation
       this.rutas = data['routes'];
-      let mensaje = '';
-
-      for (const key in this.rutas) {
-        if (this.rutas.hasOwnProperty(key)) {
-          mensaje += `${key}: ${this.rutas[key]}<br>`;
-        }
-      }
 
     });
   }
+commentsRutas(id: string){
 
-  async comments(iD: string) {
+  const body = {
+    route_id: id
+  };
+  this.rutasAfiliadasService.comentarios(body)
+  .subscribe((response) => {
+    this.comentarios = response['comments'];
+    console.log(response);
 
-    const body = {
-      route_id: iD
-    };
-
-    this.rutasAfiliadasService.comentarios(body)
-      .subscribe((response) => {
-        this.comentarios = response['comments'];
-        console.log(response);
-
-      }, (error) => {
-        console.log(error);
-      });
-
-    let mensaje = '';
-
-    for (const key in this.rutas) {
-      if (this.rutas.hasOwnProperty(key)) {
-        mensaje += `${key}: ${this.rutas[key]}<br>`;
-      }
-    }
-    const alert = await this.alertCtrl.create({
-
-      header: 'Agregar comentario',
-      message: mensaje,
-
-      inputs: [
-        {
-          name: 'comment',
-          type: 'textarea',
-          placeholder: 'Escribe un comentario...'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancelar clicked');
-          }
-        },
-        {
-          text: 'Publicar',
-          handler: (data) => {
-            console.log('Comentario publicado:', data.comment);
-          }
-        }
-      ]
+    
+  }, (error) => {
+    console.log(error);
+  });
 
 
-    });
-
-    await alert.present();
-  }
-
+}
   cancelar(iD: string) {
 
     const body = {

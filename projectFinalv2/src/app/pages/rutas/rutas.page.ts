@@ -19,7 +19,7 @@ export class RutasPage implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
 
   rutas: Rutas[] = [];
-  
+
   token1: string;
   id1: any;
   id: any;
@@ -36,9 +36,7 @@ export class RutasPage implements OnInit {
   constructor(
     private alertCtrl: AlertController,
     private rutasService: RutasService,
-    private alertController: AlertController,
-    //private modalController: ModalController
-    //private asistirRutasDisponibles: AsistirRutasDisponibles
+    
   ) { }
 
   ngOnInit() {
@@ -86,26 +84,26 @@ export class RutasPage implements OnInit {
     this.initMap();
   }
   allComments(iD: number) {
-/* 
-    const body = {
-      route_id: iD
-    };
-
-    this.rutasService.comentarios(body)
-      .subscribe((response) => {
-        if ((response === true)) {
-          console.log(response);
-
-        } else {
-          console.log(response);
-        }
-
-      }, (error) => {
-        console.log(error);
-      });
- */      
+    /* 
+        const body = {
+          route_id: iD
+        };
+    
+        this.rutasService.comentarios(body)
+          .subscribe((response) => {
+            if ((response === true)) {
+              console.log(response);
+    
+            } else {
+              console.log(response);
+            }
+    
+          }, (error) => {
+            console.log(error);
+          });
+     */
   }
-  
+
   asistir(iD: number) {
 
     const body = {
@@ -122,7 +120,7 @@ export class RutasPage implements OnInit {
           this.rutasService.rutasAll().subscribe(data => {
             // eslint-disable-next-line @typescript-eslint/dot-notation
             this.rutas = data['routes'];
-            setTimeout(function() { window.location.href = '/rutas-afiliadas'; }, 1500);
+            setTimeout(function () { window.location.href = '/rutas-afiliadas'; }, 1500);
             console.log(this.rutas);
           });
         }

@@ -6,19 +6,17 @@
         <ion-col size="12">
           <ion-item>
             <ion-label>Inicio de ruta:</ion-label>
-            <ion-input [(ngModel)]="start" [disabled]="isInputDisabled"
-              >{{start_holder}}</ion-input>
+            <ion-input [(ngModel)]="start" [disabled]="isInputDisabled">{{start_holder}}</ion-input>
           </ion-item>
         </ion-col>
         <ion-col size="12">
           <ion-item>
             <ion-label>Final de la ruta:</ion-label>
-            <ion-input [(ngModel)]="end" [disabled]="isInputDisabled"
-              >{{end_holder}}</ion-input>
+            <ion-input [(ngModel)]="end" [disabled]="isInputDisabled">{{end_holder}}</ion-input>
           </ion-item>
-          <br>  
+          <br>
         </ion-col>
-      
+
         <!-- FECHAS - HORA -->
         <ion-col size="12">
           <ion-label>Solo puedes editar la fecha y hora de las rutas</ion-label>
@@ -29,7 +27,7 @@
             </ng-template>
           </ion-modal>
         </ion-col>
-  
+
         <!-- DIFICULTAD -->
         <!-- <ion-col size="12">
           <ion-list>
@@ -47,7 +45,7 @@
   </div>
 
   <div #map id="map"></div>
-  
+
   <p class="ion-text-center">
     <ion-button color="dark" class="card-img-top" (click)="obtenerValuesEditRutaMaps()" expand="block">
       editar ruta
