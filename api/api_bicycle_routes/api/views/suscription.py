@@ -6,9 +6,9 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from api.models import Route, Suscription, User
 from api.serializers import RouteSerializer
+
 
 
 class SuscriptionAPI(APIView):
@@ -133,7 +133,33 @@ class SuscriptionAPI(APIView):
 
 
         
-
+class CommentsSuscription(APIView):
+    
+    permission_classes = (
+        IsAuthenticated,
+    )
+    def get(self, request):
+        validator = Validator(
+            schema={
+                "route_id":{
+                    "required": True,
+                    "type":"integer"
+                },
+            }
+        )
+        
+        if not validator.validate(request.query_params):
+            return Response(
+                {
+                    "details": validator.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        print(validator.document.get("route_id"))
+        filters = (Q(route__id=validator.document.get("route_id")))
+        user = request.user
+        Suscription.objects.filter
+        
 
 
 

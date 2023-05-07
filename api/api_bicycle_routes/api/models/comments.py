@@ -4,25 +4,17 @@ from api.models import User, Route
 
 
 class Commnets(models.Model):
-    routes = models.ForeignKey(
-        Route, 
+    suscription = models.ForeignKey(
+        Suscription, 
         on_delete=models.CASCADE, 
-        related_name="route_comment",
-        default=None
+        related_name="suscription_to_comment",
+        null=True
     )
-    user = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE,
-        related_name="user_comment",
-        default=None
-    )
-    comment = models.TextField()
-    num_likes = models.IntegerField(default=0)
-    num_likes = models.IntegerField(default=0)
+    comment = models.TextField(null=True)
 
     class Meta:
         verbose_name = "Comment"
         verbose_name_plural = "Comments"
     
     def __str__(self):
-        return f"{self.pk} - {self.user.full_name}"
+        return f"{self.pk}"

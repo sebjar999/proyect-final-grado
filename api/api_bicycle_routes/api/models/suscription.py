@@ -15,4 +15,4 @@ class Suscription(models.Model):
         verbose_name_plural = "Subcriptions"
     
     def __str__(self):
-        return f"{self.pk} - {self.user.name} {self.route.pk}"
+        return f"{self.pk} - {self.user.full_name}"
