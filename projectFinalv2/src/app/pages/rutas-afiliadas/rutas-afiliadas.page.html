@@ -20,15 +20,16 @@
                         <ion-button fill="clear" id="btn1{{rut.id}}" (click)="cancelar(rut.id)"> Cancelar mi suscripción
                         </ion-button>
                         <!-- <ion-button fill="clear" id="btn2" (click)="comments(rut.id)"> <ion-icon name="mail-outline"></ion-icon> Mensajes </ion-button>           -->
-                        <ion-button fill="clear" id="open-modal" (click)="commentsRutas(rut.id)"
+                        <ion-button fill="clear" id="open-modal" (click)="setOpen(true,rut.id)"
                             expand="block">Open</ion-button>
                     </ion-card>
-                    <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+
+                    <ion-modal [isOpen]="isModalOpen">
                         <ng-template>
                             <ion-header>
                                 <ion-toolbar>
                                     <ion-buttons slot="start">
-                                        <ion-button [strong]="true" (click)="cancel()">Cerrar</ion-button>
+                                        <ion-button [strong]="true" (click)="setOpen(false, rut.id)">Cerrar</ion-button>
                                     </ion-buttons>
                                     <ion-title>Comentarios </ion-title>
 
@@ -37,27 +38,26 @@
 
                             <ion-content class="ion-padding">
 
-                                <div class="listRuta--grid" >
-                                    <div class="col-4 mb-6" >
-                                        <!-- <ion-card-subtitle>{{comment.user}}: {{comment.comments}} </ion-card-subtitle> -->
-                                        <ion-card-subtitle>sebas: hoslsdsdjjsdsdjdssdsdkdkskdmskmsdkm </ion-card-subtitle><br>
-                                        <ion-card-subtitle>sebas: hoslsdsdjjsdsdjdssdsdkdkskdmskmsdkm </ion-card-subtitle><br>
-                                        <ion-card-subtitle>sebas: hoslsdsdjjsdsdjdssdsdkdkskdmskmsdkm </ion-card-subtitle><br>
-                                        <ion-card-subtitle>sebas: hoslsdsdjjsdsdjdssdsdkdkskdmskmsdkm </ion-card-subtitle><br>
-                                        <ion-card-subtitle>sebas: hoslsdsdjjsdsdjdssdsdkdkskdmskmsdkm </ion-card-subtitle><br>
+                                <div class="comentarios--grid">
+                                    <div class="col-4 mb-6" *ngFor="let comm of comentarios">
+                                        <ion-card-subtitle> {{comm.comment}} </ion-card-subtitle>
                                     </div>
                                 </div>
 
-                                <div class="modal-content">
-                                    <ion-list lines="none">
-                                        <ion-item>
-                                            <ion-input type="text" placeholder="Escribe un comentario..."
-                                                [(ngModel)]="comentPublicar"> <ion-button slot="end"><ion-icon
-                                                        name="paper-plane-outline"></ion-icon></ion-button></ion-input>
-                                        </ion-item>
+                                <form class="mid-form" (ngSubmit)="enviarDatos(rut.id)">
+                                    <div class="modal-content">
+                                        <ion-list lines="none">
+                                            <ion-item>
+                                                <ion-input type="text" placeholder="Escribe un comentario..."
+                                                    [(ngModel)]="comentPublicar" name="comentario_"></ion-input>
+                                                <ion-button slot="end" type="submit"><ion-icon
+                                                        name="paper-plane-outline"></ion-icon></ion-button>
+                                            </ion-item>
+                                        </ion-list>
+                                    </div>
+                                </form>
 
-                                    </ion-list>
-                                </div>
+
                             </ion-content>
                         </ng-template>
                     </ion-modal>

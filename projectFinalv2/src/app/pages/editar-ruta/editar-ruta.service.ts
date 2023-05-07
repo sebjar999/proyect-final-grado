@@ -24,6 +24,7 @@ export class EditarRutaService {
     return this.http.patch<any>(this.url, body,
       { headers: segurityHeaders });
   }
+  
   public getDataRoute(params:HttpParams): Observable<any>{
     const segurityHeaders = new HttpHeaders({
       // eslint-disable-next-line @typescript-eslint/naming-convention, quote-props

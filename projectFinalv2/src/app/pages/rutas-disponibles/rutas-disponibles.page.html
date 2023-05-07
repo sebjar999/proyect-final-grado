@@ -17,18 +17,30 @@
                             <ion-card-subtitle>id: {{listRut.id}}</ion-card-subtitle>
                         </ion-card-header>
                         <ion-button color="dark" (click)="enviarEditar(listRut.id)">
-
                             <ion-icon name="create-outline"></ion-icon>
                             Editar ruta
                         </ion-button>
-                        <ion-button color="dark" id="present-alert" (click)="presentAlert()">
-
-                            <ion-icon name="create-outline"></ion-icon>
+                        <ion-button color="dark" id="present-alert" (click)="gestionRuta(listRut.id)">
+                            <ion-icon name="build-outline"></ion-icon>
                             Gestion de la ruta
                         </ion-button>
 
                     </ion-card>
-                    
+                    <ion-modal [isOpen]="isModalOpen">
+                        <ng-template>
+                          <ion-header>
+                            <ion-toolbar>
+                              <ion-title>Modal</ion-title>
+                              <ion-buttons slot="end">
+                                <ion-button (click)="setOpen(false)">Close</ion-button>
+                              </ion-buttons>
+                            </ion-toolbar>
+                          </ion-header>
+                          <ion-content class="ion-padding">
+                            <h1>hola</h1>
+                          </ion-content>
+                        </ng-template>
+                      </ion-modal>
 
                 </div>
 

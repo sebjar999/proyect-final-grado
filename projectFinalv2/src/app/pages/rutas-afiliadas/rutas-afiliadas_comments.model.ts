@@ -1,6 +1,5 @@
 export interface Comentarios {
-  
-    user:string;
-    comments:string;
-    
+id: string;
+    comment:string;
+    subscription: string; 
 };

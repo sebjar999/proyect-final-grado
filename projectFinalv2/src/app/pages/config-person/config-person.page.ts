@@ -23,42 +23,34 @@ export class ConfigPersonPage implements OnInit {
   }
 
   eliminar(): void {
-   // const id = localStorage.getItem('id'); //Id almacenado en el localStorage
-    const token= localStorage.token; //Id almacenado en el localStorage
+
+    const token = localStorage.token; //Id almacenado en el localStorage
 
     this.configPersonService.deleteUsuario()
-    .subscribe((response) => {
-
-    }, (error)=>{
-      console.log(error);
-    });
-   /*  this.configPersonService.deleteUsuario().subscribe((response) => {
-      console.log(response);
-      if ((response === true)) {
+      .subscribe((response) => {
         this.eliminartrue();
-        // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-        setTimeout(function() { window.location.href = '/inicio'; }, 1500);
+         // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+        setTimeout(function() { window.location.href = '/inicio'; }, 1000);
         localStorage.removeItem('token');
-        localStorage.removeItem('ingresado');
-      } else {
+      }, (error) => {
         this.eliminarfalse();
-        // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
         setTimeout(function() { window.location.href = '/config-person'; }, 1500);
-      }
-    }); */
+      });
+    
   }
 
-  cerrarSesion(): void{
+  cerrarSesion(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('ingresado');
     // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-    setTimeout(function() { window.location.href = '/inicio'; }, 1000);
+    setTimeout(function () { window.location.href = '/inicio'; }, 1000);
   }
 
   async eliminartrue() {
     const alert = await this.alertCtrl.create({
       cssClass: 'my-custom-class',
       header: 'Usuario eliminado',
+      subHeader: 'Que mal que ya no estes con nosotros.'
     });
     await alert.present();
     const { role } = await alert.onDidDismiss();

@@ -83,27 +83,7 @@ export class RutasPage implements OnInit {
     this.modal.isOpen = isOpen;
     this.initMap();
   }
-  allComments(iD: number) {
-    /* 
-        const body = {
-          route_id: iD
-        };
-    
-        this.rutasService.comentarios(body)
-          .subscribe((response) => {
-            if ((response === true)) {
-              console.log(response);
-    
-            } else {
-              console.log(response);
-            }
-    
-          }, (error) => {
-            console.log(error);
-          });
-     */
-  }
-
+ 
   asistir(iD: number) {
 
     const body = {
@@ -115,8 +95,15 @@ export class RutasPage implements OnInit {
 
         if ((response === true)) {
           this.asistenciaIncompleta();
+          
         } else {
           this.asistenciaCompleta();
+          this.rutasService.rutasAll().subscribe(data => {
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            this.rutas = data['routes'];
+            console.log(this.rutas);
+      
+          });
           this.rutasService.rutasAll().subscribe(data => {
             // eslint-disable-next-line @typescript-eslint/dot-notation
             this.rutas = data['routes'];

@@ -14,37 +14,59 @@ import { NavParams } from '@ionic/angular'; */
 })
 export class RutasDisponiblesPage implements OnInit {
   listRuta: ListRuta[] = [];
+  isModalOpen = false;
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
   constructor(
     private rutasDisponiblesService: RutasDisponiblesService,
     private alertController: AlertController,
     public navCtrl: NavController
   ) { }
 
-  async presentAlert() {
+
+  async gestionRuta(id: string) {
+
     const alert = await this.alertController.create({
       header: 'Gestion de la ruta',
-      subHeader: 'Escoge',
-      
+
       buttons: [
         {
           text: 'Informacion de la ruta',
           handler: () => {
-            this.navCtrl.navigateRoot('definir');
+            /* this.setOpen;
+            console.log(this.setOpen); */
+
+            console.log(id)
+            localStorage.setItem('idInfo', id);
+            setTimeout(function () { window.location.href = '/informacion-route-supscription'; }, 1000);
           }
         },
         {
           text: 'Cancelar ruta',
           handler: () => {
-            
+            console.log(id);
+            const body = {
+              route_id: id
+            };
+            this.rutasDisponiblesService.cancelarRuta(body)
+              .subscribe((response) => {
+                if ((response === true)) {
+                  console.log(response);
+                } else {
+                  console.log(response);
+                }
+              })
           }
         }
       ]
-      
+
     });
 
     await alert.present();
   }
-  
+
   ngOnInit() {
     this.rutasDisponiblesService.mostrarRuta()
       .subscribe(data => {
@@ -58,5 +80,6 @@ export class RutasDisponiblesPage implements OnInit {
     localStorage.setItem('idEdit', param1);
     setTimeout(function () { window.location.href = '/editar-ruta'; }, 1000);
   }
+
 }
 

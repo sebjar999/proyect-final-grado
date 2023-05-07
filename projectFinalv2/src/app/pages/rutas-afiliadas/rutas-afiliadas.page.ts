@@ -3,7 +3,7 @@ import { AlertController, IonModal } from '@ionic/angular';
 import { Rutas } from './rutas-afiliadas.model';
 import { Comentarios } from './rutas-afiliadas_comments.model';
 import { RutasAfiliadasService } from './rutas-afiliadas.service';
-import { OverlayEventDetail } from '@ionic/core/components'; 
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-rutas-afiliadas',
@@ -14,51 +14,60 @@ export class RutasAfiliadasPage implements OnInit {
 
   @ViewChild(IonModal) modal: IonModal;
   comentPublicar: string;
-  message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
+
   rutas: Rutas[] = [];
   comentarios: Comentarios[] = [];
 
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
-  }
-
-  onWillDismiss(event: Event) {
-    const ev = event as CustomEvent<OverlayEventDetail<string>>;
-    if (ev.detail.role === 'confirm') {
-      this.message = `Hello, ${ev.detail.data}!`;
-    }
-  }
+  isModalOpen = false;
 
   constructor(
     private rutasAfiliadasService: RutasAfiliadasService,
     private alertCtrl: AlertController,
   ) { }
 
+  setOpen(isOpen: boolean, id: string) {
+    
+     this.isModalOpen = isOpen;
+    
+     const params: HttpParams = new HttpParams().set('route_id', id);
+     
+     this.rutasAfiliadasService.comentarios(params)
+      .subscribe((response) => {
+      
+        this.comentarios = response['comments'];
+        console.log(response);
+
+      }, (error) => {
+        
+        console.log(error);
+      
+      });
+  }
   ngOnInit() {
     this.rutasAfiliadasService.rutasAfili().subscribe(data => {
       console.log(data);
       // eslint-disable-next-line @typescript-eslint/dot-notation
       this.rutas = data['routes'];
-
     });
   }
-commentsRutas(id: string){
+  enviarDatos(id: String) {
+    console.log(id);
 
-  const body = {
-    route_id: id
-  };
-  this.rutasAfiliadasService.comentarios(body)
-  .subscribe((response) => {
-    this.comentarios = response['comments'];
-    console.log(response);
+    const body = {
+      id_route: id,
+      comment: this.comentPublicar,
+    };
 
-    
-  }, (error) => {
-    console.log(error);
-  });
+    this.rutasAfiliadasService.enviar(body).subscribe(data => {
+      if ((data === true)) {
+        console.log(data);
+        
 
-
-}
+      } else {
+        console.log(data);
+      }
+    });
+  }
   cancelar(iD: string) {
 
     const body = {
@@ -81,7 +90,6 @@ commentsRutas(id: string){
 
           });
         }
-
       })
   }
 
