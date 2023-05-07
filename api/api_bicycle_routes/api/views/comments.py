@@ -1,11 +1,13 @@
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from cerberus import Validator
 from django.db import transaction
 from rest_framework.response import Response
 from rest_framework import status
-from api.models import Commnets, Route
+from api.models import Commnets, Route, Suscription
 from api.serializers import CommentSerializer
+from django.db.models import Q
 
 class CommentsAPI(APIView):
     permission_classes = (
@@ -14,26 +16,38 @@ class CommentsAPI(APIView):
     def get(self, request):
         validator = Validator(
             schema={
-                "id_route":{
+                "route_id":{
                     "required": True,
-                    "type":"string",
+                    "type":"integer",
+                    "coerce":int
                 },
             }
         )
-
+        
         if not validator.validate(request.query_params):
             return Response(
                 {
-                    "details": validator.errors,
-                },
-                status=status.HTTP_400_BAD_REQUEST,
+                    "details": validator.errors
+                }, status=status.HTTP_400_BAD_REQUEST
             )
         
-        comments = Commnets.objects.filter(routes__id=validator.document.get("id_route")).all()
-        commentserializer = CommentSerializer(comments, many = True)
+        user = request.user
+        filters = (
+            Q(route__pk=validator.document.get("route_id")),
+            Q(user=user)
+        )
+        suscription = Suscription.objects.filter(*filters).first()
+        if not suscription:
+            return Response(
+                {
+                    "msg": "This user is not suscripted to route"
+                }, status=status.HTTP_400_BAD_REQUEST
+            )
+        comments = suscription.suscription_to_comment.all()
+        commentSerializer = CommentSerializer(comments, many=True)    
         return Response(
-            {
-                "comments": commentserializer.data,
+            data={
+                "comments": commentSerializer.data
             },
             status=status.HTTP_200_OK,
         )
@@ -69,6 +83,16 @@ class CommentsAPI(APIView):
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
+        filters=(Q(user=user), Q(route=route),)
+        suscription = Suscription.objects.filter(*filters)
+        if not suscription:
+            return Response(
+                {
+                    "msg": "This user is not suscripter to route",
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+            
         to_create = {
             "routes": route,
             "user": user,
@@ -81,6 +105,4 @@ class CommentsAPI(APIView):
             },
             status=status.HTTP_200_OK,
         )
-
-
 
