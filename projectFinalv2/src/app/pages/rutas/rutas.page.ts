@@ -3,8 +3,6 @@ import { RutasService } from './rutas.service';
 import { AlertController, IonModal, ModalController } from '@ionic/angular';
 import { Rutas } from './rutas.model';
 
-//import { Modal2Component } from 'src/app/components/modal2/modal2.component';
-
 //import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
 declare const google;
@@ -33,9 +31,11 @@ export class RutasPage implements OnInit {
   directionsService = new google.maps.DirectionsService();
   directionsDisplay = new google.maps.DirectionsRenderer();
 
+  
   constructor(
     private alertCtrl: AlertController,
     private rutasService: RutasService,
+    private modalController: ModalController
     
   ) { }
 
@@ -79,10 +79,12 @@ export class RutasPage implements OnInit {
     });
   }
 
+
   setOpen(isOpen: boolean) {
     this.modal.isOpen = isOpen;
     this.initMap();
   }
+  
  
   asistir(iD: number) {
 

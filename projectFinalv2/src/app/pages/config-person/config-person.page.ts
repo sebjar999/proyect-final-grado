@@ -42,6 +42,8 @@ export class ConfigPersonPage implements OnInit {
   cerrarSesion(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('ingresado');
+    localStorage.removeItem('idEdit');
+    localStorage.removeItem('idInfo');
     // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
     setTimeout(function () { window.location.href = '/inicio'; }, 1000);
   }

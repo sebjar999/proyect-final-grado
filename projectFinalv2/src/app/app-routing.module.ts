@@ -70,7 +70,11 @@ const routes: Routes = [
   {
     path: 'informacion-route-supscription',
     loadChildren: () => import('./pages/informacion-route-supscription/informacion-route-supscription.module').then( m => m.InformacionRouteSupscriptionPageModule)
+  },  {
+    path: 'rutas-activate',
+    loadChildren: () => import('./pages/rutas-activate/rutas-activate.module').then( m => m.RutasActivatePageModule)
   },
+
 
  
 

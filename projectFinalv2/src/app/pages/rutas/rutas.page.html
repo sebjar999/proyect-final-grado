@@ -1,8 +1,19 @@
-<app-header class="ion-text-center" titulo="Rutas">
-</app-header>
+
+
+<ion-header class="ion-no-border" [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start" >
+            <ion-back-button color="medium" (click)="setOpen(false)"  defaultHref="/definir"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ion-text-capitalize"> Rutas</ion-title>
+        <ion-buttons slot="end" (click)="setOpen(true)">
+            <ion-icon name="list-outline"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
 <ion-content>
 
-    <ion-content [isOpen]="true" id="rutaTrazada"></ion-content>
+    <ion-content  id="rutaTrazada"></ion-content>
 
     <ion-modal #modal trigger="open-modal" [isOpen]="true" [initialBreakpoint]="0.1" [breakpoints]="[0.1, 1, 0.75]"
         [backdropDismiss]="true" [backdropBreakpoint]="0.2">
@@ -24,9 +35,7 @@
                                 </ion-label>
                                 <ion-button color="dark" id="btn1{{rut.id}}" (click)="asistir(rut.id)"><ion-icon
                                         name="paper-plane-outline"></ion-icon></ion-button>
-                                <!-- <ion-button color="dark" id="btn2{{rut.id}}" 
-                                    (click)="comments()"><ion-icon name="mail-outline"></ion-icon></ion-button>
- -->
+                               
                                 </ion-item>
                             </div>
                         </div>
@@ -37,33 +46,4 @@
             
         </ion-modal>
         
-      
-
-
-    <!-- 
-    <div class="row container">
-
-        <div class="col-2"></div>
-
-        <div class="col">
-
-            <div class="rutas--grid" style="text-align: center;">
-                <div class="col-4 mb-6" *ngFor="let rut of rutas">
-                    <ion-card>
-                        <ion-card-header (click)="trazarRutaMaps(rut.start_route, rut.end_route)">
-                            <ion-card-title>Inicio: {{rut.start_route}}</ion-card-title>
-                            <ion-card-title>Fin: {{rut.end_route}}</ion-card-title>
-                            <ion-card-subtitle>Nivel: {{rut.route_level}}</ion-card-subtitle>
-                            <ion-card-subtitle>Dia y hora: {{rut.date_route}}</ion-card-subtitle>
-                        </ion-card-header>
-                        <ion-button fill="clear" id="btn1{{rut.id}}" (click)="asistir(rut.id)">Asistire</ion-button>
-                        <ion-button fill="clear" id="btn2{{rut.id}}" (click)="comments()">Comentarios</ion-button>
-                    </ion-card>
-                </div>
-
-            </div>
-        </div>
-    </div> -->
-
-
 </ion-content>

@@ -62,8 +62,9 @@ export class RutasAfiliadasPage implements OnInit {
       if ((data === true)) {
         console.log(data);
         
-
+        
       } else {
+        console.log("FUNCIONA");
         console.log(data);
       }
     });

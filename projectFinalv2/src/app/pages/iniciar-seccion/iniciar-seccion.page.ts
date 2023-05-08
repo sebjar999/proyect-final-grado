@@ -43,7 +43,7 @@ export class IniciarSeccionPage implements OnInit {
       }, (err) => {
         this.fallologin();
         // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-        setTimeout(function() { window.location.href = '/inicio'; }, 1500);
+        //setTimeout(function() { window.location.href = '/inicio'; }, 1500);
       });
     /*  this.authService.validarLoginApp(form).subscribe((response) => {
        if ((response.status === true)) {

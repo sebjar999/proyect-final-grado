@@ -35,12 +35,9 @@ export class RutasDisponiblesPage implements OnInit {
         {
           text: 'Informacion de la ruta',
           handler: () => {
-            /* this.setOpen;
-            console.log(this.setOpen); */
-
             console.log(id)
             localStorage.setItem('idInfo', id);
-            setTimeout(function () { window.location.href = '/informacion-route-supscription'; }, 1000);
+            setTimeout(function () { window.location.href = '/informacion-route-supscription'; }, 800);
           }
         },
         {
