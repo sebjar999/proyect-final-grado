@@ -1,7 +1,7 @@
 from django.urls import path
 
 from api.views import (CommentsAPI, Login, RouteAllAPI, RouteAPI, SuscriptionAPI,
-                       UserDeleteUser, UserRegister, GetRouteUpdate, UserManagement)
+                       UserDeleteUser, UserRegister, GetRouteUpdate, UserManagement, RouteDesactivateRouteAPI,RouteActiveAPI)
 
 urlpatterns = [
     path('comments',CommentsAPI.as_view()),
@@ -13,4 +13,7 @@ urlpatterns = [
     path('user_management',UserManagement.as_view()),
     path('delete/user',UserDeleteUser.as_view()),
     path('get_route_to_edit',GetRouteUpdate.as_view()),
+    path('desactivate_route',RouteDesactivateRouteAPI.as_view()),
+    path('get_routes_activated',RouteActiveAPI.as_view()),
+    path('test',GetRouteUpdate.as_view()),
 ]

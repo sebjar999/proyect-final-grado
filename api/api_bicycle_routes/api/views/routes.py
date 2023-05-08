@@ -7,11 +7,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from datetime import datetime
-from api.models import Route
+from api.models import Route, Suscription
 from django.db.models import Q
 from api.serializers import RouteSerializer,RouteSerializer
 import pytz
 from django.utils import timezone
+from api.helpers import send_email_test
+from django.conf import settings
+
 
 class RouteAPI(APIView):
 
@@ -23,7 +26,8 @@ class RouteAPI(APIView):
         """ Get my routes """
         user = request.user
         filters = (Q(user=user),)
-        routes = Route.objects.filter(*filters)
+        routes = Route.objects.filter(*filters).all()
+        
         routeserializer = RouteSerializer(routes, many = True)
         return Response(
                 {
@@ -132,6 +136,15 @@ class RouteAPI(APIView):
             )
         route.date_route = time_send
         route.save()
+        filters = (Q(route=route),)
+        suscriptions_emails = Suscription.objects.filter(*filters).values_list("user__email", flat=True).distinct()
+        send_email_test(
+            "Ruta actualizada",
+            f"El usuario { route.user.full_name } a actualizado la fecha de la ruta { route.start_route } a { route.end_route } ingrese al aplicativo para más información",
+            settings.EMAIL_HOST_USER,
+            suscriptions_emails,   
+            False,
+        )
         return Response(
                 {
                     "msg": "succesfully",
@@ -139,7 +152,80 @@ class RouteAPI(APIView):
                 status=status.HTTP_200_OK,
             )
         
+
+class RouteActiveAPI(APIView):
+
+    permission_classes = (
+        IsAuthenticated,
+    )
+    
+    def get(self,request):
+        """ Get my routes """
+        user = request.user
+        today = datetime.now().strftime("%Y-%m-%d")
+        filters = (Q(user=user),Q(status=Route.Status.ACTIVE),Q(date_route__gte=today),)
+        routes = Route.objects.filter(*filters).all()
+        routeserializer = RouteSerializer(routes, many = True)
+        return Response(
+                {
+                    "routes": routeserializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
         
+
+
+class RouteDesactivateRouteAPI(APIView):
+      def patch(self, request):
+        validator = Validator(
+            schema={
+                "id":{
+                    "required": True,
+                    "type": "integer"
+                },
+                "status":{
+                    "required": True,
+                    "type":"boolean",
+                },
+            }
+        )
+        
+        if not validator.validate(request.data):
+            return Response(
+                {
+                    "details": validator.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        filters = (Q(id=validator.document.get("id")),)
+        route = Route.objects.filter(*filters).first()
+        if not route:
+            return Response(
+                {
+                    "msg": f"Route not found with this id",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        route.status = validator.document.get("status")
+        route.save()
+        filters = (Q(route=route),)
+        suscriptions_emails = Suscription.objects.filter(*filters).values_list("user__email", flat=True).distinct()
+        send_email_test(
+            "Ruta actualizada",
+            f"El usuario { route.user.full_name } a actualizado el estado la ruta { route.start_route } a { route.end_route } ingrese al aplicativo para más información",
+            settings.EMAIL_HOST_USER,
+            suscriptions_emails,   
+            False,
+        )
+        return Response(
+                {
+                    "msg": "succesfully",
+                },
+                status=status.HTTP_200_OK,
+            )
+           
 
 class RouteAllAPI(APIView):
     """ Get all routes with status  ACTIVE """
@@ -155,6 +241,7 @@ class RouteAllAPI(APIView):
             Q(status=Route.Status.ACTIVE),
             Q(date_route__gte=today),
             ~Q(user=user),
+            ~Q(suscription_route_related__user=user)
         )
         routes = Route.objects.filter(*filters)
         routeserializer = RouteSerializer(routes, many = True)
@@ -165,6 +252,22 @@ class RouteAllAPI(APIView):
                 status=status.HTTP_200_OK,
             )
 
+class GetRoutesByUser(APIView):
+    permission_classes = (
+        IsAuthenticated,
+    )
+    def get(self, request):
+        validator = Validator(
+            schema={
+                "id":{
+                    "required": True,
+                    "type":"string",
+                },
+            }
+        )
+        
+        
+        
 
 class GetRouteUpdate(APIView):
     permission_classes = (
@@ -194,6 +297,15 @@ class GetRouteUpdate(APIView):
         return Response(
             {
                 "routes": route_serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
+    
+    def post(self, request):
+        send_email_test()
+        return Response(
+            {
+                "msg": "testing"
             },
             status=status.HTTP_200_OK,
         )

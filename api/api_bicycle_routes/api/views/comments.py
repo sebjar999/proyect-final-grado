@@ -43,7 +43,8 @@ class CommentsAPI(APIView):
                     "msg": "This user is not suscripted to route"
                 }, status=status.HTTP_400_BAD_REQUEST
             )
-        comments = suscription.suscription_to_comment.all()
+        filters = (Q(suscription__route__pk=validator.document.get("route_id")),)
+        comments = Commnets.objects.filter(*filters).all()
         commentSerializer = CommentSerializer(comments, many=True)    
         return Response(
             data={
@@ -84,7 +85,8 @@ class CommentsAPI(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
         filters=(Q(user=user), Q(route=route),)
-        suscription = Suscription.objects.filter(*filters)
+        suscription = Suscription.objects.filter(*filters).first()
+        comment = validator.document.get("comment")
         if not suscription:
             return Response(
                 {
@@ -92,17 +94,23 @@ class CommentsAPI(APIView):
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
-            
-        to_create = {
-            "routes": route,
-            "user": user,
-            "comment":validator.document.get("comment"),
+        data_to_add = {
+            'suscription': suscription.pk,
+            'comment': comment,
         }
-        comment = Commnets.objects.create(**to_create).pk
-        return Response(
-            {
-                "comment_pk": comment,
-            },
-            status=status.HTTP_200_OK,
-        )
-
+        commentSerializer = CommentSerializer(data=data_to_add)
+        if commentSerializer.is_valid():
+            commentSerializer.save()    
+            return Response(
+                {
+                    "comment": commentSerializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(
+                data={
+                    "details": commentSerializer.errors
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )

@@ -71,7 +71,15 @@ class SuscriptionAPI(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
+        filters = (Q(user=user),Q(route=route),)
+        suscription = Suscription.objects.filter(*filters).first()
+        if suscription:
+            return Response(
+                {
+                    "msg": "User already suscripted",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         to_save = {
             "user":user,
             "route":route
