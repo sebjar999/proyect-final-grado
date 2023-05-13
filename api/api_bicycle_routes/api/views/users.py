@@ -1,4 +1,6 @@
+from datetime import datetime
 from cerberus import Validator
+from django.conf import settings
 from django.contrib.auth import authenticate
 from django.db import models, transaction
 from django.db.models import Q
@@ -9,7 +11,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from api.serializers import UserGetSerializer, UserUpdateSerializer
 from django.contrib.auth.hashers import make_password
-from api.models import Route, User
+from api.models import Route, User, CodeRecoveryUser
+from api.helpers import generar_string_aleatorio
+from api.serializers import CodeRecoveryUserSerializer
+from api.helpers.send_email import send_email_test
 
 
 class UserRegister(APIView):
@@ -221,4 +226,141 @@ class UserManagement(APIView):
             status=status.HTTP_200_OK,
         )
         
+class UserCodeRecovery(APIView):
+    
+    def post(self, request):
+        """ Send code recovery to update password """
+        validator = Validator(
+            schema={
+                "email":{
+                    "required": True,
+                    "type":"string"
+                },
+            }
+        )
+
+        if not validator.validate(request.data):
+            return Response(
+                {
+                    "details": validator.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        email = validator.document.get("email")
+        user = User.objects.filter(Q(email=email)).first()
+        if not user:
+            return Response(
+                {
+                    "msg": f"User with email { email } not found",
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        
+        code = generar_string_aleatorio()
+        code_recovery = CodeRecoveryUser.objects.filter(Q(user=user)).first()
+        if code_recovery:
+            codeSerializer = CodeRecoveryUserSerializer(
+                instance=code_recovery,
+                data={
+                "user": user.id,
+                "code": code,
+                "date_send": datetime.now()
+            })
+        else:
+            codeSerializer = CodeRecoveryUserSerializer(data={
+                "user": user.id,
+                "code": code
+            })
+        if not codeSerializer.is_valid():
+            return Response(
+                data={
+                    "details": codeSerializer.errors
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        else:
+            codeSerializer.save()
+            
+        send_email_test(
+            "Codigo de recuperación",
+            f"Su código para recuperar contraseña es { code }",
+            settings.EMAIL_HOST_USER,
+            [user.email],   
+            False,
+        )
+        return Response(
+            {
+                "msg": f"Code send to email",
+            },
+            status=status.HTTP_200_OK,
+        )
+    
+    def patch(self, request):
+        """ Update new password """
+        validator = Validator(
+            schema={
+                "code":{
+                    "required": True,
+                    "type":"string"
+                },
+                "password":{
+                    "required": True,
+                    "type":"string"
+                },
+                "new_password":{
+                    "required": True,
+                    "type":"string"
+                },
+            }
+        )
+
+        if not validator.validate(request.data):
+            return Response(
+                {
+                    "details": validator.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        code = validator.document.get("code")
+        password = validator.document.get("password")
+        new_password = validator.document.get("new_password")
+        
+        code_recovery = CodeRecoveryUser.objects.filter(Q(code=code)).first()
+        if not code_recovery:
+            return Response(
+                {
+                    "msg": "Code not found",
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        
+        user = code_recovery.user
+        if new_password != password:
+            return Response(
+                {
+                    "msg": "New password and password are differents",
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        userupdateserializer = UserUpdateSerializer(instance=user, data={
+            "password": make_password(password)
+        })
+        if userupdateserializer.is_valid():
+            userupdateserializer.save()
+        else:
+            return Response(
+                data={
+                    "details": userupdateserializer.errors
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        code_recovery.delete()
+        return Response(
+            data={
+                "msg": "Password updated successfully"
+            },
+            status=status.HTTP_200_OK
+        )
+            
         

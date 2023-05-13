@@ -179,13 +179,14 @@ class RouteDesactivateRouteAPI(APIView):
       def patch(self, request):
         validator = Validator(
             schema={
-                "id":{
+                "route_id":{
                     "required": True,
                     "type": "integer"
                 },
                 "status":{
                     "required": True,
-                    "type":"boolean",
+                    "type":"integer",
+                    "allowed": Route.Status.values
                 },
             }
         )
@@ -198,7 +199,7 @@ class RouteDesactivateRouteAPI(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         
-        filters = (Q(id=validator.document.get("id")),)
+        filters = (Q(id=validator.document.get("route_id")),)
         route = Route.objects.filter(*filters).first()
         if not route:
             return Response(
@@ -297,15 +298,6 @@ class GetRouteUpdate(APIView):
         return Response(
             {
                 "routes": route_serializer.data,
-            },
-            status=status.HTTP_200_OK,
-        )
-    
-    def post(self, request):
-        send_email_test()
-        return Response(
-            {
-                "msg": "testing"
             },
             status=status.HTTP_200_OK,
         )
