@@ -74,6 +74,10 @@ const routes: Routes = [
     path: 'rutas-activate',
     loadChildren: () => import('./pages/rutas-activate/rutas-activate.module').then( m => m.RutasActivatePageModule)
   },
+  {
+    path: 'confirmar-codigo',
+    loadChildren: () => import('./pages/confirmar-codigo/confirmar-codigo.module').then( m => m.ConfirmarCodigoPageModule)
+  },
 
 
  

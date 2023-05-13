@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/api_http_registrar';
 import { RegistrarService } from './registrar.service';
-
 
 @Component({
   selector: 'app-registrar',

@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class RutasDisponiblesService {
     url = environment.API_URL + 'route';
-    url1 = environment.API_URL + 'route';//falta
+    url1 = environment.API_URL + 'desactivate_route';
     constructor(private http: HttpClient) { }
 
     public mostrarRuta(){
@@ -27,7 +27,7 @@ export class RutasDisponiblesService {
             // eslint-disable-next-line @typescript-eslint/naming-convention
             'Content-Type': 'application/json; charset=utf-8',
           });
-          return this.http.delete(this.url1,
-            { headers: segurityHeaders,body: body  });
+          return this.http.patch(this.url1,body,
+            { headers: segurityHeaders});
     }
 }

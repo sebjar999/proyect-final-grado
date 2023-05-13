@@ -45,7 +45,8 @@ export class RutasDisponiblesPage implements OnInit {
           handler: () => {
             console.log(id);
             const body = {
-              route_id: id
+              route_id: id,
+              status: 1
             };
             this.rutasDisponiblesService.cancelarRuta(body)
               .subscribe((response) => {

@@ -34,8 +34,7 @@ export class RutasPage implements OnInit {
   
   constructor(
     private alertCtrl: AlertController,
-    private rutasService: RutasService,
-    private modalController: ModalController
+    private rutasService: RutasService
     
   ) { }
 
@@ -46,12 +45,6 @@ export class RutasPage implements OnInit {
       console.log(this.rutas);
 
     });
-    /*     onIonInfinite(ev) {
-          
-          setTimeout(() => {
-            (ev as InfiniteScrollCustomEvent).target.complete();
-          }, 500);
-        }  */
     this.initMap();
   }
 
@@ -79,13 +72,11 @@ export class RutasPage implements OnInit {
     });
   }
 
-
   setOpen(isOpen: boolean) {
     this.modal.isOpen = isOpen;
     this.initMap();
   }
   
- 
   asistir(iD: number) {
 
     const body = {

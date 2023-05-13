@@ -35,7 +35,6 @@ class RouteAPI(APIView):
                 },
                 status=status.HTTP_200_OK,
             )
-        
 
     @transaction.atomic(savepoint=True)
     def post(self,request):

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController,NavController} from '@ionic/angular';
+import { RecuperarService } from './recuperar.service';
+
 
 @Component({
   selector: 'app-recuperar',
@@ -7,31 +9,36 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./recuperar.page.scss'],
 })
 export class RecuperarPage implements OnInit {
-  usuario: any;
-  constructor(private alertCtrl: AlertController) {
-    this.usuario = {
-      email: ''
-    };
-
+    recuperarC: string;
+  
+  constructor(private alertCtrl: AlertController,
+    private recuperarService: RecuperarService,
+    public navCtrl: NavController) {
+   
   }
 
   ngOnInit() {
   }
 
-  async presentAlert() {
-    const alert = await this.alertCtrl.create({
-      cssClass: 'my-custom-class',
-      header: 'Bienvenido de nuevo',
-      subHeader: 'Es bueno volverte a ver',
-      buttons: ['OK']
-    });
-    await alert.present();
-    const { role } = await alert.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
-  }
+  recuperarContrasena(){
+     const body={
+      email: this.recuperarC
+     }
 
+     this.recuperarService.recuperar(body).subscribe(data => {
+      if ((data === true)) {
+        console.log(data);
+        
+        
+      } else {
+        this.navCtrl.navigateRoot('definir');
+        console.log(data);
+      }
+    });
+  }
   onSubmit() {
-    console.log(this.usuario);
+    
+ 
   }
 
 }
