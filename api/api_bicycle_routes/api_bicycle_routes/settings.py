@@ -150,5 +150,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'sebasjaramiillo.pereira@gmail.com' # Reemplaza esto con tu correo electrónico
-EMAIL_HOST_PASSWORD = 'Prueba12345678' # Reemplaza esto con tu contraseña
-#EMAIL_HOST_PASSWORD = 'shcktqetrpdpcaad' # Reemplaza esto con tu contraseña
+EMAIL_HOST_PASSWORD = 'pnuqkxdspcaqbgxy' # Reemplaza esto con tu contraseña
