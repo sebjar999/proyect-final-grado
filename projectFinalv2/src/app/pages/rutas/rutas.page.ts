@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { RutasService } from './rutas.service';
 import { AlertController, IonModal, ModalController } from '@ionic/angular';
 import { Rutas } from './rutas.model';
+import { HttpParams } from '@angular/common/http';
 
 //import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
@@ -15,8 +16,13 @@ declare const google;
 export class RutasPage implements OnInit {
 
   @ViewChild(IonModal) modal: IonModal;
-
+  fechaSeleccionada: string;
+  /* Rutas  */
   rutas: Rutas[] = [];
+  /* Rutas filtradas por nivel  */
+  rutasFilterOne: Rutas[] = [];
+  rutasFilterTwo: Rutas[] = [];
+  rutasFilterThree: Rutas[] = [];
 
   token1: string;
   id1: any;
@@ -31,21 +37,45 @@ export class RutasPage implements OnInit {
   directionsService = new google.maps.DirectionsService();
   directionsDisplay = new google.maps.DirectionsRenderer();
 
-  
+
   constructor(
     private alertCtrl: AlertController,
     private rutasService: RutasService
-    
+
   ) { }
+  filtrarPorFecha() {
+    const t = this.fechaSeleccionada.toString();
+    const day = t.split('T')[0];
+    const hour = t.split('T')[1].split('-')[0];
+    const dayHour = day + ' ' + hour;
+    console.log('Fecha seleccionada:', this.fechaSeleccionada);
+  }
 
   ngOnInit() {
     this.rutasService.rutasAll().subscribe(data => {
       // eslint-disable-next-line @typescript-eslint/dot-notation
       this.rutas = data['routes'];
-      console.log(this.rutas);
-
     });
     this.initMap();
+    /* level one  */
+    const paramsOne: HttpParams = new HttpParams().set('level_percentage', 1);
+    this.rutasService.rutasFilter(paramsOne).subscribe(data => {
+      // eslint-disable-next-line @typescript-eslint/dot-notation
+      this.rutasFilterOne = data['routes'];
+      /* level two */
+      const paramsTwo: HttpParams = new HttpParams().set('level_percentage', 2);
+      this.rutasService.rutasFilter(paramsTwo).subscribe(data => {
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+        this.rutasFilterTwo = data['routes'];
+      });
+      /* Level three */
+      const paramsThree: HttpParams = new HttpParams().set('level_percentage', 3);
+      this.rutasService.rutasFilter(paramsThree).subscribe(data => {
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+        this.rutasFilterThree = data['routes'];
+      });
+    });
+
   }
 
   initMap() {
@@ -76,7 +106,7 @@ export class RutasPage implements OnInit {
     this.modal.isOpen = isOpen;
     this.initMap();
   }
-  
+
   asistir(iD: number) {
 
     const body = {
@@ -88,14 +118,14 @@ export class RutasPage implements OnInit {
 
         if ((response === true)) {
           this.asistenciaIncompleta();
-          
+
         } else {
           this.asistenciaCompleta();
           this.rutasService.rutasAll().subscribe(data => {
             // eslint-disable-next-line @typescript-eslint/dot-notation
             this.rutas = data['routes'];
             console.log(this.rutas);
-      
+
           });
           this.rutasService.rutasAll().subscribe(data => {
             // eslint-disable-next-line @typescript-eslint/dot-notation

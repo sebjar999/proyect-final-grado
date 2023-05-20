@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { ConfirmarCodigoService } from './confirmar-codigo.service';
 ConfirmarCodigoService
 @Component({
@@ -10,7 +10,9 @@ ConfirmarCodigoService
 export class ConfirmarCodigoPage implements OnInit {
   codigoc: string;
   contra: string;
-  constructor(private alertCtrl: AlertController, private confirmarCodigoService: ConfirmarCodigoService) { }
+  constructor(private alertCtrl: AlertController, 
+    private confirmarCodigoService: ConfirmarCodigoService,
+    public navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -26,8 +28,9 @@ export class ConfirmarCodigoPage implements OnInit {
     this.confirmarCodigoService.codigo(body).subscribe(data => {
       if ((data === true)) {
         console.log(data);
+        console.log("funciona");
       } else {
-        
+        this.navCtrl.navigateRoot('inicio');
         console.log(data);
       }
     });

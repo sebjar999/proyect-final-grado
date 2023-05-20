@@ -27,11 +27,9 @@ export class RecuperarPage implements OnInit {
 
      this.recuperarService.recuperar(body).subscribe(data => {
       if ((data === true)) {
-        console.log(data);
-        
-        
+        console.log(data);        
       } else {
-        this.navCtrl.navigateRoot('definir');
+        this.navCtrl.navigateRoot('confirmar-codigo');
         console.log(data);
       }
     });
