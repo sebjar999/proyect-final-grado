@@ -14,10 +14,144 @@
     <ion-modal #modal trigger="open-modal" [isOpen]="true" [initialBreakpoint]="0.1" [breakpoints]="[0.1, 1, 0.75]"
         [backdropDismiss]="false" [backdropBreakpoint]="0.2">
         <ng-template>
+            <ion-accordion-group>
+                <ion-accordion value="first">
+                    <ion-item slot="header" color="light">
+                        <ion-label>Nivel bajo </ion-label>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                        <div class="rutasFilterOne--grid" style="text-align: center;">
+                            <div class="col-4 mb-6" *ngFor="let rut of rutasFilterOne">
+                                <ion-item (click)="trazarRutaMaps(rut.start_route, rut.end_route)">
+                                    <ion-avatar slot="start">
+                                        <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
+                                    </ion-avatar>
+                                    <ion-label>
+
+                                        <p>Inicio: {{rut.start_route}}</p>
+                                        <p>Fin: {{rut.end_route}}</p>
+                                        <p>Nivel: {{rut.route_level}}</p>
+                                        <p>Fecha: {{rut.date_route}}</p>
+
+                                    </ion-label>
+                                    <ion-button color="dark" id="btn1{{rut.id}}" (click)="asistir(rut.id)"><ion-icon
+                                            name="paper-plane-outline"></ion-icon></ion-button>
+                                </ion-item>
+                            </div>
+                        </div>
+                    </div>
+
+                </ion-accordion>
+                <!-- second -->
+
+                <ion-accordion value="second">
+                    <ion-item slot="header" color="light">
+                        <ion-label>Nivel medio </ion-label>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                        <div class="rutasFilterTwo--grid" style="text-align: center;">
+                            <div class="col-4 mb-6" *ngFor="let rut of rutasFilterTwo">
+                                <ion-item (click)="trazarRutaMaps(rut.start_route, rut.end_route)">
+                                    <ion-avatar slot="start">
+                                        <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
+                                    </ion-avatar>
+                                    <ion-label>
+
+                                        <p>Inicio: {{rut.start_route}}</p>
+                                        <p>Fin: {{rut.end_route}}</p>
+                                        <p>Nivel: {{rut.route_level}}</p>
+                                        <p>Fecha: {{rut.date_route}}</p>
+
+                                    </ion-label>
+                                    <ion-button color="dark" id="btn1{{rut.id}}" (click)="asistir(rut.id)"><ion-icon
+                                            name="paper-plane-outline"></ion-icon></ion-button>
+                                </ion-item>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </ion-accordion>
+                <!-- third -->
+
+                <ion-accordion value="third">
+                    <ion-item slot="header" color="light">
+                        <ion-label>Nivel alto</ion-label>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                        <div class="rutasFilterThree--grid" style="text-align: center;">
+                            <div class="col-4 mb-6" *ngFor="let rut of rutasFilterThree">
+                                <ion-item (click)="trazarRutaMaps(rut.start_route, rut.end_route)">
+                                    <ion-avatar slot="start">
+                                        <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
+                                    </ion-avatar>
+                                    <ion-label>
+
+                                        <p>Inicio: {{rut.start_route}}</p>
+                                        <p>Fin: {{rut.end_route}}</p>
+                                        <p>Nivel: {{rut.route_level}}</p>
+                                        <p>Fecha: {{rut.date_route}}</p>
+
+                                    </ion-label>
+                                    <ion-button color="dark" id="btn1{{rut.id}}" (click)="asistir(rut.id)"><ion-icon
+                                            name="paper-plane-outline"></ion-icon></ion-button>
+                                </ion-item>
+                            </div>
+                        </div>
+                    </div>
+
+                </ion-accordion>
+
+                <!-- search date  -->
+                <ion-accordion value="third">
+                    <ion-item slot="header" color="light">
+                        <ion-label>Busqueda por fecha</ion-label>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                        <div class="rutasFilterThree--grid" style="text-align: center;">
+                            <div class="col-4 mb-6" *ngFor="let rut of rutasFilterThree">
+                                <ion-item (click)="trazarRutaMaps(rut.start_route, rut.end_route)">
+                                    <ion-avatar slot="start">
+                                        <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
+                                    </ion-avatar>
+                                    <ion-label>
+
+                                        <p>Inicio: {{rut.start_route}}</p>
+                                        <p>Fin: {{rut.end_route}}</p>
+                                        <p>Nivel: {{rut.route_level}}</p>
+                                        <p>Fecha: {{rut.date_route}}</p>
+
+                                    </ion-label>
+                                    <ion-button color="dark" id="btn1{{rut.id}}" (click)="asistir(rut.id)"><ion-icon
+                                            name="paper-plane-outline"></ion-icon></ion-button>
+                                </ion-item>
+                            </div>
+                        </div>
+                    </div>
+
+                </ion-accordion>
+                
+            </ion-accordion-group>
+
             <ion-content class="ion-padding">
                 <ion-list>
+                    <ion-header>Todas las rutas </ion-header>
+                    <ion-col size="6">
+
+                        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+                        <ion-modal [keepContentsMounted]="true">
+                            <ng-template>
+                                <ion-datetime id="datetime" presentation="date" color="dark"
+                                    [(ngModel)]="fechaSeleccionada"></ion-datetime>
+                            </ng-template>
+                        </ion-modal>
+
+                    </ion-col>
+                    <ion-button (click)="filtrarPorFecha()">Filtrar</ion-button>
+
                     <div class="rutas--grid" style="text-align: center;">
                         <div class="col-4 mb-6" *ngFor="let rut of rutas">
+
                             <ion-item (click)="trazarRutaMaps(rut.start_route, rut.end_route)">
                                 <ion-avatar slot="start">
                                     <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
