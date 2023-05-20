@@ -8,12 +8,10 @@
         <div class="col">
 
             <div class="listRuta--grid" style="text-align: center;">
-                <div class="col-4 mb-6">
+                <div class="col-4 mb-6" *ngFor="let use of infoRoute">
                     <ion-card>
                         <ion-card-header>
-                            <!--  <ion-card-title>Inicio: {{listRut.start_route}}</ion-card-title>
-                        <ion-card-title>Fin: {{listRut.end_route}}</ion-card-title>
-                         -->
+                            <ion-card-title>{{use.full_name}} {{use.last_name}}</ion-card-title>
                         </ion-card-header>
                     </ion-card>
                 </div>

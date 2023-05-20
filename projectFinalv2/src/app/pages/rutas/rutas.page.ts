@@ -16,13 +16,16 @@ declare const google;
 export class RutasPage implements OnInit {
 
   @ViewChild(IonModal) modal: IonModal;
-  fechaSeleccionada: string;
+  fechaSeleccionadainicio: string;
+  fechaSeleccionadaFin: string;
   /* Rutas  */
   rutas: Rutas[] = [];
   /* Rutas filtradas por nivel  */
   rutasFilterOne: Rutas[] = [];
   rutasFilterTwo: Rutas[] = [];
   rutasFilterThree: Rutas[] = [];
+  /* Rutas filtradas por fechas  */
+  since: Rutas[] = [];
 
   token1: string;
   id1: any;
@@ -44,11 +47,30 @@ export class RutasPage implements OnInit {
 
   ) { }
   filtrarPorFecha() {
-    const t = this.fechaSeleccionada.toString();
+    //inicio 
+    const t = this.fechaSeleccionadainicio.toString();
     const day = t.split('T')[0];
     const hour = t.split('T')[1].split('-')[0];
     const dayHour = day + ' ' + hour;
-    console.log('Fecha seleccionada:', this.fechaSeleccionada);
+    console.log('Fecha seleccionada:', dayHour);
+    //fin 
+    const tI = this.fechaSeleccionadaFin.toString();
+    const dayI = tI.split('T')[0];
+    const hourI = tI.split('T')[1].split('-')[0];
+    const dayHourI = dayI + ' ' + hourI;
+    console.log('Fecha seleccionada1:', dayHourI);
+
+    let params = new HttpParams()
+    .set('date_since', dayHour)
+    .set('date_until', dayHourI);
+    this.rutasService.rutasFilterDay(params).subscribe(data => {
+      // eslint-disable-next-line @typescript-eslint/dot-notation
+      this.since = data['msg'];
+      console.log(data);
+      console.log(this.since);
+      
+    });
+
   }
 
   ngOnInit() {
@@ -62,20 +84,19 @@ export class RutasPage implements OnInit {
     this.rutasService.rutasFilter(paramsOne).subscribe(data => {
       // eslint-disable-next-line @typescript-eslint/dot-notation
       this.rutasFilterOne = data['routes'];
-      /* level two */
-      const paramsTwo: HttpParams = new HttpParams().set('level_percentage', 2);
-      this.rutasService.rutasFilter(paramsTwo).subscribe(data => {
-        // eslint-disable-next-line @typescript-eslint/dot-notation
-        this.rutasFilterTwo = data['routes'];
-      });
-      /* Level three */
-      const paramsThree: HttpParams = new HttpParams().set('level_percentage', 3);
-      this.rutasService.rutasFilter(paramsThree).subscribe(data => {
-        // eslint-disable-next-line @typescript-eslint/dot-notation
-        this.rutasFilterThree = data['routes'];
-      });
     });
-
+    /* level two */
+    const paramsTwo: HttpParams = new HttpParams().set('level_percentage', 2);
+    this.rutasService.rutasFilter(paramsTwo).subscribe(data => {
+      // eslint-disable-next-line @typescript-eslint/dot-notation
+      this.rutasFilterTwo = data['routes'];
+    });
+    /* Level three */
+    const paramsThree: HttpParams = new HttpParams().set('level_percentage', 3);
+    this.rutasService.rutasFilter(paramsThree).subscribe(data => {
+      // eslint-disable-next-line @typescript-eslint/dot-notation
+      this.rutasFilterThree = data['routes'];
+    });
   }
 
   initMap() {

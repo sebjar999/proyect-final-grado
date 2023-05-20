@@ -15,6 +15,7 @@
         [backdropDismiss]="false" [backdropBreakpoint]="0.2">
         <ng-template>
             <ion-accordion-group>
+                <!-- one level  -->
                 <ion-accordion value="first">
                     <ion-item slot="header" color="light">
                         <ion-label>Nivel bajo </ion-label>
@@ -42,8 +43,8 @@
                     </div>
 
                 </ion-accordion>
-                <!-- second -->
 
+                <!-- second level -->
                 <ion-accordion value="second">
                     <ion-item slot="header" color="light">
                         <ion-label>Nivel medio </ion-label>
@@ -72,8 +73,8 @@
 
 
                 </ion-accordion>
-                <!-- third -->
 
+                <!-- third level-->
                 <ion-accordion value="third">
                     <ion-item slot="header" color="light">
                         <ion-label>Nivel alto</ion-label>
@@ -103,13 +104,38 @@
                 </ion-accordion>
 
                 <!-- search date  -->
-                <ion-accordion value="third">
+                <ion-accordion value="fourd">
                     <ion-item slot="header" color="light">
                         <ion-label>Busqueda por fecha</ion-label>
                     </ion-item>
+
                     <div class="ion-padding" slot="content">
-                        <div class="rutasFilterThree--grid" style="text-align: center;">
-                            <div class="col-4 mb-6" *ngFor="let rut of rutasFilterThree">
+                        <ion-col size="6">
+                            <!-- Inicio -->
+                            <ion-title>Desde</ion-title>
+                            <ion-datetime-button datetime="datetime"></ion-datetime-button>
+                            <ion-modal [keepContentsMounted]="true">
+                                <ng-template>
+                                    <ion-datetime id="datetime" color="dark"
+                                        [(ngModel)]="fechaSeleccionadainicio"></ion-datetime>
+                                </ng-template>
+                            </ion-modal>
+                            <!-- Fin -->
+                            <ion-title>Hasta</ion-title>
+                            <ion-datetime-button datetime="datetime1"></ion-datetime-button>
+                            <ion-modal [keepContentsMounted]="true">
+                                <ng-template>
+                                    <ion-datetime id="datetime1" color="dark"
+                                    [(ngModel)]="fechaSeleccionadaFin"></ion-datetime>
+                                </ng-template>
+                            </ion-modal>
+                            <ion-button color="dark" expand="block" (click)="filtrarPorFecha()">Filtrar</ion-button>
+
+                        </ion-col>
+                        
+
+                        <div class="since--grid" style="text-align: center;">
+                            <div class="col-4 mb-6" *ngFor="let rut of since">
                                 <ion-item (click)="trazarRutaMaps(rut.start_route, rut.end_route)">
                                     <ion-avatar slot="start">
                                         <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
@@ -130,24 +156,13 @@
                     </div>
 
                 </ion-accordion>
-                
+
             </ion-accordion-group>
 
             <ion-content class="ion-padding">
+                <ion-header>Todas las rutas </ion-header>
                 <ion-list>
-                    <ion-header>Todas las rutas </ion-header>
-                    <ion-col size="6">
-
-                        <ion-datetime-button datetime="datetime"></ion-datetime-button>
-                        <ion-modal [keepContentsMounted]="true">
-                            <ng-template>
-                                <ion-datetime id="datetime" presentation="date" color="dark"
-                                    [(ngModel)]="fechaSeleccionada"></ion-datetime>
-                            </ng-template>
-                        </ion-modal>
-
-                    </ion-col>
-                    <ion-button (click)="filtrarPorFecha()">Filtrar</ion-button>
+                    
 
                     <div class="rutas--grid" style="text-align: center;">
                         <div class="col-4 mb-6" *ngFor="let rut of rutas">

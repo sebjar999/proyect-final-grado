@@ -11,6 +11,7 @@ export class RutasService {
   url = environment.API_URL + 'route_all';
   url_ = environment.API_URL + 'subscribe';
   url_1 = environment.API_URL + 'route_filter';
+  url_2 = environment.API_URL + 'route_by_date';
   
   constructor(private http: HttpClient) { }
 
@@ -44,6 +45,16 @@ export class RutasService {
       'Content-Type': 'application/json; charset=utf-8',
     });
     return this.http.get(this.url_1,
+      { params, headers: segurityHeaders });
+  }
+  public rutasFilterDay(params: HttpParams): Observable<any> {
+    const segurityHeaders = new HttpHeaders({
+      // eslint-disable-next-line @typescript-eslint/naming-convention, quote-props
+      'Authorization': `token ${localStorage.getItem('token')}`,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      'Content-Type': 'application/json; charset=utf-8',
+    });
+    return this.http.get(this.url_2,
       { params, headers: segurityHeaders });
   }
 }
