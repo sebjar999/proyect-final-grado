@@ -173,7 +173,6 @@ class RouteActiveAPI(APIView):
             )
         
 
-
 class RouteDesactivateRouteAPI(APIView):
       def patch(self, request):
         validator = Validator(
@@ -225,7 +224,6 @@ class RouteDesactivateRouteAPI(APIView):
                 },
                 status=status.HTTP_200_OK,
             )
-           
 
 class RouteAllAPI(APIView):
     """ Get all routes with status  ACTIVE """
@@ -265,10 +263,7 @@ class GetRoutesByUser(APIView):
                 },
             }
         )
-        
-        
-        
-
+              
 class GetRouteUpdate(APIView):
     permission_classes = (
         IsAuthenticated,
@@ -297,6 +292,51 @@ class GetRouteUpdate(APIView):
         return Response(
             {
                 "routes": route_serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
+        
+        
+class filterRoutes(APIView):
+    permission_classes = (
+        IsAuthenticated,
+    )
+    
+    def get(self, request):
+        """ Return routes with specific filters """
+        validator = Validator(
+            schema={
+                "level_percentage":{
+                    "required": True,
+                    "type": "integer",
+                    "allowed": [1,2,3],
+                    "coerce": int
+                },
+            }
+        )
+        user = request.user
+        if not validator.validate(request.query_params):
+            return Response(
+                {
+                    "details": validator.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+            
+        today = datetime.now().strftime("%Y-%m-%d")
+        level = validator.document.get("level_percentage")
+        filters = (
+            Q(status=Route.Status.ACTIVE),
+            Q(date_route__gte=today),
+            ~Q(user=user),
+            ~Q(suscription_route_related__user=user),
+            Q(route_level=level),
+        )
+        routes = Route.objects.filter(*filters).all()
+        routeSerializer = RouteSerializer(routes, many=True)
+        return Response(
+            {
+                "routes": routeSerializer.data,
             },
             status=status.HTTP_200_OK,
         )
