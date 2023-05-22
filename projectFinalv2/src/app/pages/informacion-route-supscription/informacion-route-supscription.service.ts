@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 //mostrar rutas disponibles por los usuarios
 export class InformacionRouteService {
-    url = environment.API_URL + 'route_all';
+    url = environment.API_URL + 'usersByroutes';
 
     constructor(private http: HttpClient) { }
 

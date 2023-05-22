@@ -10,7 +10,7 @@ import { InformacionRouteService } from './informacion-route-supscription.servic
 })
 export class InformacionRouteSupscriptionPage implements OnInit {
   infoRoute: InfoRoute[]=[];
-
+  num= 0;
   constructor(
     private informacionRouteService:InformacionRouteService
   ) { }
@@ -18,11 +18,13 @@ export class InformacionRouteSupscriptionPage implements OnInit {
   ngOnInit() {
     const id = JSON.parse(localStorage.getItem('idInfo'));
     console.log(id);
-    const params: HttpParams = new HttpParams().set('id', id);
+    
+    const params: HttpParams = new HttpParams().set('route_id', id);
     this.informacionRouteService.informacionRoute(params)
       .subscribe(data => {
         // eslint-disable-next-line @typescript-eslint/dot-notation
-        this.infoRoute = data['routes'];
+        this.infoRoute = data['users'];
+       console.log(data);
        
       });
   }
