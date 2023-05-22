@@ -1,5 +1,5 @@
 from api.helpers import Levels
-from api.models import Route
+from api.models import Route,User
 from cerberus import Validator
 from django.db import transaction
 from rest_framework import status
@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from datetime import datetime
 from api.models import Route, Suscription
 from django.db.models import Q
-from api.serializers import RouteSerializer,RouteSerializer
+from api.serializers import RouteSerializer,RouteSerializer, UserGetSerializer
 import pytz
 from django.utils import timezone
 from api.helpers import send_email_test
@@ -151,7 +151,6 @@ class RouteAPI(APIView):
                 status=status.HTTP_200_OK,
             )
         
-
 class RouteActiveAPI(APIView):
 
     permission_classes = (
@@ -172,8 +171,6 @@ class RouteActiveAPI(APIView):
                 status=status.HTTP_200_OK,
             )
         
-
-
 class RouteDesactivateRouteAPI(APIView):
       def patch(self, request):
         validator = Validator(
@@ -225,7 +222,6 @@ class RouteDesactivateRouteAPI(APIView):
                 },
                 status=status.HTTP_200_OK,
             )
-           
 
 class RouteAllAPI(APIView):
     """ Get all routes with status  ACTIVE """
@@ -265,10 +261,7 @@ class GetRoutesByUser(APIView):
                 },
             }
         )
-        
-        
-        
-
+              
 class GetRouteUpdate(APIView):
     permission_classes = (
         IsAuthenticated,
@@ -297,6 +290,130 @@ class GetRouteUpdate(APIView):
         return Response(
             {
                 "routes": route_serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
+           
+class filterRoutes(APIView):
+    permission_classes = (
+        IsAuthenticated,
+    )
+    
+    def get(self, request):
+        """ Return routes with specific filters """
+        validator = Validator(
+            schema={
+                "level_percentage":{
+                    "required": True,
+                    "type": "integer",
+                    "allowed": [1,2,3],
+                    "coerce": int
+                }
+            }
+        )
+        user = request.user
+        if not validator.validate(request.query_params):
+            return Response(
+                {
+                    "details": validator.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+            
+        today = datetime.now().strftime("%Y-%m-%d")
+        level = validator.document.get("level_percentage")
+        filters = (
+            Q(status=Route.Status.ACTIVE),
+            Q(date_route__gte=today),
+            ~Q(user=user),
+            ~Q(suscription_route_related__user=user),
+            Q(route_level=level),
+        )
+        routes = Route.objects.filter(*filters).all()
+        routeSerializer = RouteSerializer(routes, many=True)
+        return Response(
+            {
+                "routes": routeSerializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+class filterByDate(APIView):
+    permission_classes = (
+        IsAuthenticated,
+    )
+    
+    def get(self, request):
+        """ Return routes with validation the date """
+        validator = Validator(
+            schema={
+                "date_since":{
+                    "required": True,
+                    "type":"datetime",
+                    "coerce":lambda s: datetime.strptime(s, '%Y-%m-%d %H:%M:%S')
+                },
+                "date_until":{
+                    "required": True,
+                    "type":"datetime",
+                    "coerce":lambda s: datetime.strptime(s, '%Y-%m-%d %H:%M:%S')
+                },
+            }
+        )
+        user = request.user
+        
+        if not validator.validate(request.query_params):
+            return Response(
+                {
+                    "details": validator.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        filters = (
+            Q(date_route__gte=validator.document.get("date_since")),
+            Q(date_route__lte=validator.document.get("date_until")),
+            Q(status=Route.Status.ACTIVE),
+            ~Q(suscription_route_related__user=user),
+            ~Q(user=user)
+        )
+        route = Route.objects.filter(*filters).all()
+        route = RouteSerializer(route, many=True)
+        return Response(
+            {
+                "msg": route.data,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+class getUsersBy(APIView):
+    
+    permission_classes = (
+        IsAuthenticated,
+    )
+    def get(self, request):
+        validator = Validator(
+            schema={
+                "route_id":{
+                    "required": True,
+                    "type":"integer",
+                    "coerce":int
+                },
+            }
+        )        
+        if not validator.validate(request.query_params):
+            return Response(
+                {
+                    "details": validator.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        users_ids = Suscription.objects.filter(Q(route__pk=validator.document.get("route_id"))).values_list("user__pk",flat=True)
+        users = User.objects.filter(Q(id__in=users_ids)).all()
+        user_serializer = UserGetSerializer(users, many=True)
+        return Response(
+            {
+                "users": user_serializer.data,
             },
             status=status.HTTP_200_OK,
         )

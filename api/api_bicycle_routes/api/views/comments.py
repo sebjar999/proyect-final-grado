@@ -30,7 +30,6 @@ class CommentsAPI(APIView):
                     "details": validator.errors
                 }, status=status.HTTP_400_BAD_REQUEST
             )
-        
         user = request.user
         filters = (
             Q(route__pk=validator.document.get("route_id")),
